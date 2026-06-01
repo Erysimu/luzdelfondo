@@ -106,12 +106,12 @@ nav a:hover{opacity:1}
 
 /* ============ MARQUEE ============ */
 .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;
-  background:rgba(255,176,97,.03);white-space:nowrap;position:relative;z-index:3;width:100%}
-.marquee .track{display:inline-block;animation:slide 26s linear infinite;font-family:var(--serif);font-style:italic;
-  font-size:clamp(1.4rem,3vw,2rem);color:var(--cream)}
-.marquee .track span{margin:0 26px;opacity:.85}
-.marquee .track b{color:var(--glow);font-weight:300}
-@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  background:rgba(255,176,97,.03);position:relative;z-index:3;width:100%;display:flex}
+.mtrack{display:flex;align-items:center;flex-shrink:0;white-space:nowrap;animation:slide 60s linear infinite;
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,3vw,2rem);color:var(--cream)}
+.mtrack span{margin:0 26px;opacity:.85}
+.mtrack b{color:var(--glow);font-weight:300}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-100%)}}
 
 /* ============ LABEL / REVEAL ============ */
 .label{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--glow);
@@ -218,37 +218,6 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
   <div class="moon"></div>
   <p class="kicker">Indie / Alternativo · Cintas de medianoche</p>
 
-  <div class="den">
-    <svg viewBox="0 0 340 380" xmlns="http://www.w3.org/2000/svg" aria-label="Mapache Luz del Fondo">
-      <defs>
-        <linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a3aebd"/><stop offset="1" stop-color="#7c8898"/></linearGradient>
-        <linearGradient id="h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aab4c2"/><stop offset="1" stop-color="#8b97a6"/></linearGradient>
-      </defs>
-      <path d="M206 300 C250 304 288 280 298 234 C306 198 298 166 280 148" fill="none" stroke="#8b97a6" stroke-width="50" stroke-linecap="round"/>
-      <path d="M206 300 C250 304 288 280 298 234 C306 198 298 166 280 148" fill="none" stroke="#333c49" stroke-width="50" stroke-linecap="butt" stroke-dasharray="16 30" stroke-dashoffset="-8"/>
-      <circle cx="280" cy="148" r="25" fill="#2b333f"/>
-      <ellipse cx="126" cy="350" rx="26" ry="16" fill="#333c49"/><ellipse cx="194" cy="350" rx="26" ry="16" fill="#333c49"/>
-      <path d="M160 168 C104 168 76 214 76 268 C76 330 112 358 160 358 C208 358 244 330 244 268 C244 214 216 168 160 168 Z" fill="url(#b)"/>
-      <ellipse cx="84" cy="270" rx="16" ry="26" fill="#333c49" transform="rotate(-14 84 270)"/>
-      <ellipse cx="236" cy="270" rx="16" ry="26" fill="#333c49" transform="rotate(14 236 270)"/>
-      <ellipse cx="160" cy="282" rx="52" ry="64" fill="#f1e9db"/>
-      <path d="M104 58 C92 14 138 14 152 56 C134 50 120 50 104 58 Z" fill="#8b97a6"/>
-      <path d="M216 58 C228 14 182 14 168 56 C186 50 200 50 216 58 Z" fill="#8b97a6"/>
-      <path d="M112 54 C104 26 138 26 146 52 C132 48 122 48 112 54 Z" fill="#2b333f"/>
-      <path d="M208 54 C216 26 182 26 174 52 C188 48 198 48 208 54 Z" fill="#2b333f"/>
-      <ellipse cx="160" cy="116" rx="92" ry="84" fill="url(#h)"/>
-      <path d="M150 90 C150 72 130 66 112 72 C88 80 74 100 74 120 C74 142 92 156 116 154 C140 152 150 134 150 112 Z" fill="#262e3a"/>
-      <path d="M170 90 C170 72 190 66 208 72 C232 80 246 100 246 120 C246 142 228 156 204 154 C180 152 170 134 170 112 Z" fill="#262e3a"/>
-      <path d="M78 116 C80 92 102 80 124 84 C140 87 149 96 150 108 C146 100 132 96 116 98 C98 100 84 108 78 116 Z" fill="#f1e9db"/>
-      <path d="M242 116 C240 92 218 80 196 84 C180 87 171 96 170 108 C174 100 188 96 204 98 C222 100 236 108 242 116 Z" fill="#f1e9db"/>
-      <path d="M160 120 C190 120 208 142 208 162 C208 184 186 196 160 196 C134 196 112 184 112 162 C112 142 130 120 160 120 Z" fill="#f1e9db"/>
-      <g class="blink" style="transform-origin:120px 122px"><circle cx="120" cy="122" r="15" fill="#10141b"/><circle cx="114" cy="116" r="5" fill="#fff"/></g>
-      <g class="blink" style="transform-origin:200px 122px"><circle cx="200" cy="122" r="15" fill="#10141b"/><circle cx="194" cy="116" r="5" fill="#fff"/></g>
-      <path d="M160 142 C171 142 178 150 173 158 C168 165 163 168 160 172 C157 168 152 165 147 158 C142 150 149 142 160 142 Z" fill="#1c222c"/>
-      <path d="M160 172 L160 179" stroke="#1c222c" stroke-width="3" stroke-linecap="round"/>
-      <path d="M142 180 C150 190 170 190 178 180" stroke="#1c222c" stroke-width="3" fill="none" stroke-linecap="round"/>
-    </svg>
-  </div>
 
   <h1 class="title"><span class="l1">Luz del</span><span class="l2">Fondo</span></h1>
   <p class="subtitle">Canciones grabadas cuando la ciudad ya se durmió. Cintas que guardan la luz que queda al fondo de la noche.</p>
@@ -258,10 +227,8 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
 
 <!-- MARQUEE -->
 <div class="marquee">
-  <div class="track">
-    <span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b>
-    <span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b>
-  </div>
+  <div class="mtrack"><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b></div>
+  <div class="mtrack" aria-hidden="true"><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b></div>
 </div>
 
 <!-- DECK -->
@@ -319,44 +286,13 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
 <section id="sobre">
   <div class="wrap statement reveal">
     <p class="label">Sobre el proyecto</p>
-    <p>No hacemos canciones para el día. Las hacemos para esa hora en que solo quedan <i>los faroles</i>, una guitarra con reverb y un mapache mirando desde la ventana.</p>
+    <p>No hago canciones para el día. Las hago para esa hora en que solo quedan <i>los faroles</i>, una guitarra con reverb y el zumbido de la ciudad dormida.</p>
     <span class="signo">— Cintas de medianoche · Chile</span>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-coon">
-    <svg viewBox="0 0 340 380" xmlns="http://www.w3.org/2000/svg" aria-label="Mapache">
-      <defs>
-        <linearGradient id="b2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a3aebd"/><stop offset="1" stop-color="#7c8898"/></linearGradient>
-        <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aab4c2"/><stop offset="1" stop-color="#8b97a6"/></linearGradient>
-      </defs>
-      <path d="M206 300 C250 304 288 280 298 234 C306 198 298 166 280 148" fill="none" stroke="#8b97a6" stroke-width="50" stroke-linecap="round"/>
-      <path d="M206 300 C250 304 288 280 298 234 C306 198 298 166 280 148" fill="none" stroke="#333c49" stroke-width="50" stroke-linecap="butt" stroke-dasharray="16 30" stroke-dashoffset="-8"/>
-      <circle cx="280" cy="148" r="25" fill="#2b333f"/>
-      <ellipse cx="126" cy="350" rx="26" ry="16" fill="#333c49"/><ellipse cx="194" cy="350" rx="26" ry="16" fill="#333c49"/>
-      <path d="M160 168 C104 168 76 214 76 268 C76 330 112 358 160 358 C208 358 244 330 244 268 C244 214 216 168 160 168 Z" fill="url(#b2)"/>
-      <ellipse cx="84" cy="270" rx="16" ry="26" fill="#333c49" transform="rotate(-14 84 270)"/>
-      <ellipse cx="236" cy="270" rx="16" ry="26" fill="#333c49" transform="rotate(14 236 270)"/>
-      <ellipse cx="160" cy="282" rx="52" ry="64" fill="#f1e9db"/>
-      <path d="M104 58 C92 14 138 14 152 56 C134 50 120 50 104 58 Z" fill="#8b97a6"/>
-      <path d="M216 58 C228 14 182 14 168 56 C186 50 200 50 216 58 Z" fill="#8b97a6"/>
-      <path d="M112 54 C104 26 138 26 146 52 C132 48 122 48 112 54 Z" fill="#2b333f"/>
-      <path d="M208 54 C216 26 182 26 174 52 C188 48 198 48 208 54 Z" fill="#2b333f"/>
-      <ellipse cx="160" cy="116" rx="92" ry="84" fill="url(#h2)"/>
-      <path d="M150 90 C150 72 130 66 112 72 C88 80 74 100 74 120 C74 142 92 156 116 154 C140 152 150 134 150 112 Z" fill="#262e3a"/>
-      <path d="M170 90 C170 72 190 66 208 72 C232 80 246 100 246 120 C246 142 228 156 204 154 C180 152 170 134 170 112 Z" fill="#262e3a"/>
-      <path d="M78 116 C80 92 102 80 124 84 C140 87 149 96 150 108 C146 100 132 96 116 98 C98 100 84 108 78 116 Z" fill="#f1e9db"/>
-      <path d="M242 116 C240 92 218 80 196 84 C180 87 171 96 170 108 C174 100 188 96 204 98 C222 100 236 108 242 116 Z" fill="#f1e9db"/>
-      <path d="M160 120 C190 120 208 142 208 162 C208 184 186 196 160 196 C134 196 112 184 112 162 C112 142 130 120 160 120 Z" fill="#f1e9db"/>
-      <circle cx="120" cy="122" r="15" fill="#10141b"/><circle cx="200" cy="122" r="15" fill="#10141b"/>
-      <circle cx="114" cy="116" r="5" fill="#fff"/><circle cx="194" cy="116" r="5" fill="#fff"/>
-      <path d="M160 142 C171 142 178 150 173 158 C168 165 163 168 160 172 C157 168 152 165 147 158 C142 150 149 142 160 142 Z" fill="#1c222c"/>
-      <path d="M160 172 L160 179" stroke="#1c222c" stroke-width="3" stroke-linecap="round"/>
-      <path d="M142 180 C150 190 170 190 178 180" stroke="#1c222c" stroke-width="3" fill="none" stroke-linecap="round"/>
-    </svg>
-  </div>
   <h2 class="big-name">Luz del Fondo</h2>
   <div class="social"><a href="#">Spotify</a><a href="#">Bandcamp</a><a href="#">Instagram</a><a href="#">YouTube</a></div>
   <p class="copy">© 2025 Luz del Fondo · todo grabado de noche · hecho en Chile</p>
