@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luz del Fondo</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#0b0b0f;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at 20% 20%, rgba(255,180,120,.08), transparent 25%),
+    radial-gradient(circle at 80% 30%, rgba(120,180,255,.08), transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,.04), transparent 35%);
+    pointer-events:none;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+    text-align:center;
+}
+
+.raccoon{
+    font-size:7rem;
+    margin-bottom:20px;
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+}
+
+h1{
+    font-size:clamp(2.5rem,8vw,6rem);
+    letter-spacing:8px;
+    font-weight:900;
+}
+
+.subtitle{
+    color:#bdbdbd;
+    margin-top:12px;
+    font-size:1rem;
+    max-width:600px;
+    line-height:1.6;
+}
+
+.cassette{
+    margin-top:50px;
+    width:min(90vw,550px);
+    aspect-ratio:16/9;
+    background:linear-gradient(145deg,#e7d8b9,#bfa680);
+    border-radius:18px;
+    position:relative;
+    box-shadow:
+    0 0 40px rgba(255,200,120,.15),
+    inset 0 0 20px rgba(0,0,0,.1);
+}
+
+.label{
+    position:absolute;
+    top:15%;
+    left:10%;
+    right:10%;
+    height:32%;
+    background:#f7f0e0;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#111;
+    font-weight:bold;
+    letter-spacing:3px;
+}
+
+.reel{
+    width:70px;
+    height:70px;
+    background:#222;
+    border-radius:50%;
+    position:absolute;
+    top:58%;
+    transform:translateY(-50%);
+}
+
+.reel.left{
+    left:25%;
+}
+
+.reel.right{
+    right:25%;
+}
+
+.reel::after{
+    content:"";
+    width:18px;
+    height:18px;
+    background:#999;
+    border-radius:50%;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.line{
+    position:absolute;
+    top:58%;
+    left:32%;
+    width:36%;
+    height:3px;
+    background:#222;
+}
+
+.links{
+    margin-top:40px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.links a{
+    text-decoration:none;
+    color:white;
+    border:1px solid rgba(255,255,255,.15);
+    padding:12px 20px;
+    border-radius:999px;
+    transition:.25s;
+}
+
+.links a:hover{
+    background:white;
+    color:black;
+}
+
+.footer{
+    text-align:center;
+    color:#888;
+    padding:30px;
+    font-size:.9rem;
+}
+
+.glow{
+    color:#f3d7a5;
+    text-shadow:0 0 15px rgba(255,220,150,.4);
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+
+    <div class="raccoon">🦝</div>
+
+    <h1>LUZ DEL FONDO</h1>
+
+    <p class="subtitle">
+        Cintas olvidadas. Noches largas. Luces lejanas.
+        Un rincón del internet para perderse un momento.
+    </p>
+
+    <div class="cassette">
+
+        <div class="label">
+            LUZ DEL FONDO
+        </div>
+
+        <div class="reel left"></div>
+        <div class="reel right"></div>
+        <div class="line"></div>
+
+    </div>
+
+    <div class="links">
+        <a href="#">Spotify</a>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <a href="#">Contacto</a>
+    </div>
+
+</section>
+
+<div class="footer">
+    <span class="glow">Luz del Fondo</span> · Demo inicial · 2026
+</div>
+
+</body>
+</html>
