@@ -151,6 +151,15 @@ nav a:hover{opacity:1}
 .play:hover{background:rgba(255,176,97,.18);box-shadow:0 0 30px rgba(255,176,97,.35)}
 .play svg{width:22px;height:22px}
 .hint{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--cream-dim)}
+.ctrl{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(244,236,223,.04);
+  color:var(--cream-dim);cursor:none;display:grid;place-items:center;transition:.3s;flex-shrink:0}
+.ctrl:hover{color:var(--glow);border-color:var(--glow);background:rgba(255,176,97,.1)}
+.ctrl svg{width:18px;height:18px}
+.progressrow{display:flex;align-items:center;gap:12px;margin:6px 0 22px}
+.progress{flex:1;height:6px;border-radius:3px;background:rgba(244,236,223,.12);cursor:none;position:relative;overflow:hidden}
+.pfill{height:100%;width:0;background:linear-gradient(90deg,var(--glow-deep),var(--glow));border-radius:3px}
+.dur{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--cream-dim);min-width:42px;text-align:right}
+@media(max-width:760px){.progressrow{max-width:320px;margin:6px auto 22px}}
 
 /* ============ TRACKLIST ============ */
 .inlay{width:100%;max-width:980px;display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,4vw,40px)}
@@ -246,16 +255,21 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
           <text x="58" y="55" font-family="DM Mono, monospace" font-size="11" fill="#1a1206" letter-spacing="2">LUZ DEL FONDO · DEMO</text>
           <text x="60" y="92" font-family="Caveat, cursive" font-size="30" fill="#7a2e10">ojos de octubre</text>
           <text x="60" y="118" font-family="DM Mono, monospace" font-size="10" fill="#9a5a36" letter-spacing="2">SENCILLO · 2025</text>
+          <rect x="22" y="156" width="376" height="11" fill="#ffb061"/>
+          <rect x="22" y="167" width="376" height="11" fill="#e07a3c"/>
+          <rect x="22" y="178" width="376" height="11" fill="#c0503a"/>
+          <rect x="22" y="189" width="376" height="11" fill="#2f6b6e"/>
+          <rect x="22" y="200" width="376" height="11" fill="#e9ddc8"/>
           <rect x="120" y="150" width="180" height="70" rx="8" fill="#0a0d12"/>
           <circle cx="150" cy="185" r="30" fill="#1c2632"/>
-          <g class="reel" style="transform-origin:150px 185px">
+          <g class="reel" style="transform-origin:center">
             <circle cx="150" cy="185" r="22" fill="none" stroke="#ffb061" stroke-width="2" opacity=".5"/>
             <g stroke="#cdd4dd" stroke-width="3" stroke-linecap="round">
               <path d="M150 169 L150 175"/><path d="M150 195 L150 201"/><path d="M134 185 L140 185"/><path d="M160 185 L166 185"/>
               <path d="M139 174 L143 178"/><path d="M157 192 L161 196"/><path d="M161 174 L157 178"/><path d="M143 192 L139 196"/></g>
             <circle cx="150" cy="185" r="7" fill="#0a0d12" stroke="#cdd4dd" stroke-width="2"/></g>
           <circle cx="270" cy="185" r="30" fill="#1c2632"/>
-          <g class="reel" style="transform-origin:270px 185px">
+          <g class="reel" style="transform-origin:center">
             <circle cx="270" cy="185" r="14" fill="none" stroke="#ffb061" stroke-width="2" opacity=".5"/>
             <g stroke="#cdd4dd" stroke-width="3" stroke-linecap="round">
               <path d="M270 169 L270 175"/><path d="M270 195 L270 201"/><path d="M254 185 L260 185"/><path d="M280 185 L286 185"/>
@@ -269,7 +283,14 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
           <p class="track-sub" id="tSub">Sencillo</p>
           <p class="counter" id="counter">00:00</p>
           <div class="vu" id="vu"></div>
+          <div class="progressrow">
+            <div class="progress" id="progress"><div class="pfill" id="pfill"></div></div>
+            <span class="dur" id="tDur">--:--</span>
+          </div>
           <div class="controls">
+            <button class="ctrl" id="restartBtn" aria-label="Reiniciar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.3"/><path d="M3 3v5h5"/></svg>
+            </button>
             <button class="play" id="playBtn" aria-label="Reproducir / pausar">
               <svg id="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </button>
@@ -334,9 +355,12 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 const vu=document.getElementById('vu');for(let i=0;i<24;i++)vu.appendChild(document.createElement('i'));
 const bars=[...vu.children];
 const deck=document.getElementById('theDeck'),btn=document.getElementById('playBtn'),ico=document.getElementById('ico'),
-  counter=document.getElementById('counter'),hint=document.getElementById('hint'),audio=document.getElementById('audio');
+  counter=document.getElementById('counter'),hint=document.getElementById('hint'),audio=document.getElementById('audio'),
+  restartBtn=document.getElementById('restartBtn'),progress=document.getElementById('progress'),
+  pfill=document.getElementById('pfill'),tDur=document.getElementById('tDur');
 const fmt=s=>{s=s||0;return String((s/60|0)).padStart(2,'0')+':'+String((s%60|0)).padStart(2,'0');};
-let actx,analyser,data,raf;
+const PLAY='<path d="M8 5v14l11-7z"/>', PAUSE='<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+let actx,analyser,data,raf,synthRaf,t=0;
 
 function setupAudio(){
   if(actx)return;
@@ -346,31 +370,51 @@ function setupAudio(){
   data=new Uint8Array(analyser.frequencyBinCount);
   src.connect(analyser);analyser.connect(actx.destination);
 }
-function draw(){
-  raf=requestAnimationFrame(draw);
+function drawReal(){
+  raf=requestAnimationFrame(drawReal);
   if(!analyser)return;
   analyser.getByteFrequencyData(data);
   bars.forEach((b,i)=>{const idx=Math.floor(i/bars.length*data.length);
     b.style.height=Math.max(8,(data[idx]/255)*100)+'%';});
 }
-function setPlaying(){deck.classList.add('playing');
-  ico.innerHTML='<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
-  hint.textContent='Sonando · Ojos de octubre';draw();}
-function setPaused(){deck.classList.remove('playing');
-  ico.innerHTML='<path d="M8 5v14l11-7z"/>';hint.textContent='Pulsa para escuchar';
-  cancelAnimationFrame(raf);bars.forEach(b=>b.style.height='14%');}
+function drawSynth(){            /* sin MP3: barras animadas para que se vea vivo */
+  synthRaf=requestAnimationFrame(drawSynth);t+=0.08;
+  bars.forEach((b,i)=>{const c=Math.abs(i-bars.length/2)/(bars.length/2);
+    const v=(Math.sin(t+i*0.5)*0.5+0.5)*(1-c*0.5);
+    b.style.height=Math.max(10,v*90+10)+'%';});
+}
+function stopDraws(){cancelAnimationFrame(raf);cancelAnimationFrame(synthRaf);}
+function uiPlay(){deck.classList.add('playing');ico.innerHTML=PAUSE;}   /* .playing => giran las ruedas */
+function uiPause(){deck.classList.remove('playing');ico.innerHTML=PLAY;
+  hint.textContent='Pulsa para escuchar';stopDraws();bars.forEach(b=>b.style.height='14%');}
 
-audio.addEventListener('timeupdate',()=>counter.textContent=fmt(audio.currentTime));
-audio.addEventListener('loadedmetadata',()=>counter.textContent=fmt(0));
-audio.addEventListener('ended',setPaused);
+audio.addEventListener('timeupdate',()=>{
+  counter.textContent=fmt(audio.currentTime);
+  if(audio.duration)pfill.style.width=(audio.currentTime/audio.duration*100)+'%';
+});
+audio.addEventListener('loadedmetadata',()=>{tDur.textContent=fmt(audio.duration);counter.textContent='00:00';});
+audio.addEventListener('ended',()=>{uiPause();pfill.style.width='0%';counter.textContent='00:00';});
 
 btn.addEventListener('click',()=>{
   setupAudio();
   if(actx.state==='suspended')actx.resume();
   if(audio.paused){
-    audio.play().then(setPlaying).catch(()=>{hint.textContent='No se encontró ojos-de-octubre.mp3';});
-  }else{audio.pause();setPaused();}
+    audio.play().then(()=>{uiPlay();hint.textContent='Sonando · Ojos de octubre';stopDraws();drawReal();})
+    .catch(()=>{ /* todavía sin MP3: igual giran las ruedas (modo demo) */
+      uiPlay();hint.textContent='Sube ojos-de-octubre.mp3 para oírla';stopDraws();drawSynth();});
+  }else{audio.pause();uiPause();}
 });
+
+restartBtn.addEventListener('click',()=>{
+  audio.currentTime=0;pfill.style.width='0%';counter.textContent='00:00';
+});
+
+progress.addEventListener('click',e=>{
+  if(!audio.duration)return;
+  const r=progress.getBoundingClientRect();
+  audio.currentTime=Math.min(audio.duration,Math.max(0,(e.clientX-r.left)/r.width*audio.duration));
+});
+
 bars.forEach(b=>b.style.height='14%');
 </script>
 </body>
