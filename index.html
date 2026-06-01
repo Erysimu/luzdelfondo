@@ -75,13 +75,16 @@ nav a:hover{opacity:1}
 @media(max-width:720px){nav .links,nav .right{display:none}}
 
 /* ============ HERO ============ */
-.hero{min-height:100svh;justify-content:center;position:relative;padding-top:120px}
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;position:relative;padding:130px clamp(20px,5vw,60px) 70px}
 .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--glow);
   opacity:0;animation:rise 1s .2s forwards;display:flex;gap:14px;align-items:center}
 .kicker::before,.kicker::after{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--glow))}
 .kicker::after{background:linear-gradient(90deg,var(--glow),transparent)}
-.den{position:relative;width:min(300px,66vw);margin:24px 0 4px;opacity:0;animation:rise 1.2s .95s forwards}
-.den svg{width:100%;height:auto;display:block;filter:drop-shadow(0 22px 50px rgba(255,150,71,.22))}
+.den{position:relative;width:min(230px,50vw);margin:14px 0 6px;opacity:0;animation:rise 1.2s .95s forwards}
+.den svg{width:100%;height:auto;display:block;filter:drop-shadow(0 26px 55px rgba(255,150,71,.22));
+  animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .den .blink{animation:blink 5.5s infinite}
 @keyframes blink{0%,94%,100%{transform:scaleY(1)}96%,98%{transform:scaleY(.08)}}
 .title{font-size:clamp(3.8rem,16vw,13rem);font-weight:300;line-height:.8;letter-spacing:-.02em;margin:.05em 0 .12em;
@@ -93,7 +96,7 @@ nav a:hover{opacity:1}
   color:transparent;animation:rise 1.1s .5s forwards;text-shadow:0 0 60px rgba(255,176,97,.25)}
 .subtitle{font-size:clamp(1.05rem,2.4vw,1.4rem);color:var(--cream-dim);max-width:38ch;line-height:1.55;font-weight:300;
   font-style:italic;opacity:0;animation:rise 1.1s .8s forwards}
-.scrollcue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;
+.scrollcue{position:absolute;bottom:30px;left:0;right:0;margin:0 auto;font-family:var(--mono);font-size:10px;
   letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim);opacity:0;animation:rise 1s 1.4s forwards;
   display:flex;flex-direction:column;align-items:center;gap:8px}
 .scrollcue .bar{width:1px;height:34px;background:linear-gradient(var(--glow),transparent);animation:drop 1.8s ease-in-out infinite}
@@ -202,7 +205,6 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
   <div class="brand"><span class="dot"></span>Luz del Fondo</div>
   <div class="links">
     <a href="#deck">Reproductor</a>
-    <a href="#cintas">Lado A / B</a>
     <a href="#sobre">Sobre</a>
   </div>
   <div class="right">Grabado de noche</div>
@@ -215,23 +217,34 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
   <p class="kicker">Indie / Alternativo · Cintas de medianoche</p>
 
   <div class="den">
-    <svg viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg" aria-label="Mapache">
-      <defs><radialGradient id="fur" cx="50%" cy="40%" r="70%">
-        <stop offset="0%" stop-color="#8b97a6"/><stop offset="100%" stop-color="#5d6b7d"/></radialGradient></defs>
-      <path d="M70 78 C58 30 96 18 110 56 Z" fill="#5d6b7d"/><path d="M230 78 C242 30 204 18 190 56 Z" fill="#5d6b7d"/>
-      <path d="M78 70 C72 42 96 34 104 60 Z" fill="#2b333f"/><path d="M222 70 C228 42 204 34 196 60 Z" fill="#2b333f"/>
-      <path d="M150 38 C214 38 244 86 244 132 C244 188 204 214 150 214 C96 214 56 188 56 132 C56 86 86 38 150 38 Z" fill="url(#fur)"/>
-      <path d="M150 50 C196 50 224 80 226 116 C200 96 100 96 74 116 C76 80 104 50 150 50 Z" fill="#e9e3d8" opacity=".92"/>
-      <path d="M150 96 C176 96 204 104 214 126 C214 152 192 168 168 162 C158 159 156 146 150 146 C144 146 142 159 132 162 C108 168 86 152 86 126 C96 104 124 96 150 96 Z" fill="#1c222c"/>
-      <g class="blink" style="transform-origin:118px 130px"><ellipse cx="118" cy="130" rx="13" ry="14" fill="#0a0d12"/><circle cx="113" cy="125" r="4" fill="#ffce9a"/><circle cx="121" cy="133" r="2" fill="#ffb061"/></g>
-      <g class="blink" style="transform-origin:182px 130px"><ellipse cx="182" cy="130" rx="13" ry="14" fill="#0a0d12"/><circle cx="177" cy="125" r="4" fill="#ffce9a"/><circle cx="185" cy="133" r="2" fill="#ffb061"/></g>
-      <path d="M150 150 C168 150 180 162 180 176 C180 192 166 202 150 202 C134 202 120 192 120 176 C120 162 132 150 150 150 Z" fill="#f3ecdf"/>
-      <path d="M150 162 C160 162 166 169 162 176 C159 181 153 184 150 188 C147 184 141 181 138 176 C134 169 140 162 150 162 Z" fill="#1c222c"/>
-      <path d="M150 188 L150 198" stroke="#1c222c" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M150 198 C144 198 140 200 138 203" stroke="#1c222c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M150 198 C156 198 160 200 162 203" stroke="#1c222c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <g stroke="#cfc6b8" stroke-width="1.4" opacity=".7" stroke-linecap="round">
-        <path d="M120 176 L86 168"/><path d="M120 182 L88 184"/><path d="M180 176 L214 168"/><path d="M180 182 L212 184"/></g>
+    <svg viewBox="0 0 340 380" xmlns="http://www.w3.org/2000/svg" aria-label="Mapache Luz del Fondo">
+      <defs>
+        <linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a3aebd"/><stop offset="1" stop-color="#7c8898"/></linearGradient>
+        <linearGradient id="h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aab4c2"/><stop offset="1" stop-color="#8b97a6"/></linearGradient>
+      </defs>
+      <path d="M206 300 C250 304 288 280 298 234 C306 198 298 166 280 148" fill="none" stroke="#8b97a6" stroke-width="50" stroke-linecap="round"/>
+      <path d="M206 300 C250 304 288 280 298 234 C306 198 298 166 280 148" fill="none" stroke="#333c49" stroke-width="50" stroke-linecap="butt" stroke-dasharray="16 30" stroke-dashoffset="-8"/>
+      <circle cx="280" cy="148" r="25" fill="#2b333f"/>
+      <ellipse cx="126" cy="350" rx="26" ry="16" fill="#333c49"/><ellipse cx="194" cy="350" rx="26" ry="16" fill="#333c49"/>
+      <path d="M160 168 C104 168 76 214 76 268 C76 330 112 358 160 358 C208 358 244 330 244 268 C244 214 216 168 160 168 Z" fill="url(#b)"/>
+      <ellipse cx="84" cy="270" rx="16" ry="26" fill="#333c49" transform="rotate(-14 84 270)"/>
+      <ellipse cx="236" cy="270" rx="16" ry="26" fill="#333c49" transform="rotate(14 236 270)"/>
+      <ellipse cx="160" cy="282" rx="52" ry="64" fill="#f1e9db"/>
+      <path d="M104 58 C92 14 138 14 152 56 C134 50 120 50 104 58 Z" fill="#8b97a6"/>
+      <path d="M216 58 C228 14 182 14 168 56 C186 50 200 50 216 58 Z" fill="#8b97a6"/>
+      <path d="M112 54 C104 26 138 26 146 52 C132 48 122 48 112 54 Z" fill="#2b333f"/>
+      <path d="M208 54 C216 26 182 26 174 52 C188 48 198 48 208 54 Z" fill="#2b333f"/>
+      <ellipse cx="160" cy="116" rx="92" ry="84" fill="url(#h)"/>
+      <path d="M150 90 C150 72 130 66 112 72 C88 80 74 100 74 120 C74 142 92 156 116 154 C140 152 150 134 150 112 Z" fill="#262e3a"/>
+      <path d="M170 90 C170 72 190 66 208 72 C232 80 246 100 246 120 C246 142 228 156 204 154 C180 152 170 134 170 112 Z" fill="#262e3a"/>
+      <path d="M78 116 C80 92 102 80 124 84 C140 87 149 96 150 108 C146 100 132 96 116 98 C98 100 84 108 78 116 Z" fill="#f1e9db"/>
+      <path d="M242 116 C240 92 218 80 196 84 C180 87 171 96 170 108 C174 100 188 96 204 98 C222 100 236 108 242 116 Z" fill="#f1e9db"/>
+      <path d="M160 120 C190 120 208 142 208 162 C208 184 186 196 160 196 C134 196 112 184 112 162 C112 142 130 120 160 120 Z" fill="#f1e9db"/>
+      <g class="blink" style="transform-origin:120px 122px"><circle cx="120" cy="122" r="15" fill="#10141b"/><circle cx="114" cy="116" r="5" fill="#fff"/></g>
+      <g class="blink" style="transform-origin:200px 122px"><circle cx="200" cy="122" r="15" fill="#10141b"/><circle cx="194" cy="116" r="5" fill="#fff"/></g>
+      <path d="M160 142 C171 142 178 150 173 158 C168 165 163 168 160 172 C157 168 152 165 147 158 C142 150 149 142 160 142 Z" fill="#1c222c"/>
+      <path d="M160 172 L160 179" stroke="#1c222c" stroke-width="3" stroke-linecap="round"/>
+      <path d="M142 180 C150 190 170 190 178 180" stroke="#1c222c" stroke-width="3" fill="none" stroke-linecap="round"/>
     </svg>
   </div>
 
@@ -244,8 +257,8 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
 <!-- MARQUEE -->
 <div class="marquee">
   <div class="track">
-    <span>Luz del Fondo</span><b>✦</b><span>cintas de medianoche</span><b>✦</b><span>grabado de noche</span><b>✦</b><span>indie · alternativo</span><b>✦</b>
-    <span>Luz del Fondo</span><b>✦</b><span>cintas de medianoche</span><b>✦</b><span>grabado de noche</span><b>✦</b><span>indie · alternativo</span><b>✦</b>
+    <span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b>
+    <span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b>
   </div>
 </div>
 
@@ -261,9 +274,9 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
           <rect x="22" y="22" width="376" height="216" rx="10" fill="#111e2d"/>
           <rect x="44" y="40" width="332" height="92" rx="6" fill="#f3ecdf"/>
           <rect x="44" y="40" width="332" height="20" rx="6" fill="#ffb061"/>
-          <text x="58" y="55" font-family="DM Mono, monospace" font-size="11" fill="#1a1206" letter-spacing="2">LUZ DEL FONDO · C90</text>
-          <text x="60" y="92" font-family="Caveat, cursive" font-size="30" fill="#7a2e10">cintas de medianoche</text>
-          <text x="60" y="118" font-family="DM Mono, monospace" font-size="10" fill="#9a5a36" letter-spacing="2">NOISE REDUCTION · ON</text>
+          <text x="58" y="55" font-family="DM Mono, monospace" font-size="11" fill="#1a1206" letter-spacing="2">LUZ DEL FONDO · DEMO</text>
+          <text x="60" y="92" font-family="Caveat, cursive" font-size="30" fill="#7a2e10">ojos de octubre</text>
+          <text x="60" y="118" font-family="DM Mono, monospace" font-size="10" fill="#9a5a36" letter-spacing="2">SENCILLO · 2025</text>
           <rect x="120" y="150" width="180" height="70" rx="8" fill="#0a0d12"/>
           <circle cx="150" cy="185" r="30" fill="#1c2632"/>
           <g class="reel" style="transform-origin:150px 185px">
@@ -282,48 +295,19 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
           <g fill="#2b3542"><circle cx="40" cy="38" r="4"/><circle cx="380" cy="38" r="4"/><circle cx="40" cy="222" r="4"/><circle cx="380" cy="222" r="4"/><circle cx="210" cy="232" r="4"/></g>
         </svg>
         <div class="panel">
-          <p class="np">► Reproduciendo ahora</p>
-          <p class="track-name" id="tName">Neón en la lluvia</p>
-          <p class="track-sub">Lado A · 01 / 08</p>
+          <p class="np">► Demo · Luz del Fondo</p>
+          <p class="track-name" id="tName">Ojos de octubre</p>
+          <p class="track-sub" id="tSub">Sencillo</p>
           <p class="counter" id="counter">00:00</p>
           <div class="vu" id="vu"></div>
           <div class="controls">
             <button class="play" id="playBtn" aria-label="Reproducir / pausar">
               <svg id="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </button>
-            <span class="hint" id="hint">Pulsa para girar la cinta</span>
+            <span class="hint" id="hint">Pulsa para escuchar</span>
           </div>
+          <audio id="audio" src="ojos-de-octubre.mp3" preload="metadata"></audio>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRACKLIST -->
-<section id="cintas">
-  <div class="wrap reveal">
-    <p class="label">El disco</p>
-    <h2 class="sec-title">Dos caras, una noche</h2>
-    <div class="inlay">
-      <div class="side">
-        <h3>Lado A</h3>
-        <p class="meta">Dolby B · 44 min · grabado en cuarto oscuro</p>
-        <ol>
-          <li><em>Neón en la lluvia</em><time>4:12</time></li>
-          <li><em>Mapache nocturno</em><time>3:48</time></li>
-          <li><em>2003</em><time>5:01</time></li>
-          <li><em>Cinta gastada</em><time>4:33</time></li>
-        </ol>
-      </div>
-      <div class="side">
-        <h3>Lado B</h3>
-        <p class="meta">Dolby B · 41 min · al fondo del pasillo</p>
-        <ol>
-          <li><em>Modo avión</em><time>3:27</time></li>
-          <li><em>Estática</em><time>4:55</time></li>
-          <li><em>Luz del fondo</em><time>6:18</time></li>
-          <li><em>Volver a grabar</em><time>5:40</time></li>
-        </ol>
       </div>
     </div>
   </div>
@@ -341,16 +325,34 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
 <!-- FOOTER -->
 <footer>
   <div class="foot-coon">
-    <svg viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg" aria-label="Mapache">
-      <path d="M70 78 C58 30 96 18 110 56 Z" fill="#5d6b7d"/><path d="M230 78 C242 30 204 18 190 56 Z" fill="#5d6b7d"/>
-      <path d="M78 70 C72 42 96 34 104 60 Z" fill="#2b333f"/><path d="M222 70 C228 42 204 34 196 60 Z" fill="#2b333f"/>
-      <path d="M150 38 C214 38 244 86 244 132 C244 188 204 214 150 214 C96 214 56 188 56 132 C56 86 86 38 150 38 Z" fill="#6c7888"/>
-      <path d="M150 50 C196 50 224 80 226 116 C200 96 100 96 74 116 C76 80 104 50 150 50 Z" fill="#e9e3d8" opacity=".92"/>
-      <path d="M150 96 C176 96 204 104 214 126 C214 152 192 168 168 162 C158 159 156 146 150 146 C144 146 142 159 132 162 C108 168 86 152 86 126 C96 104 124 96 150 96 Z" fill="#1c222c"/>
-      <ellipse cx="118" cy="130" rx="13" ry="14" fill="#0a0d12"/><circle cx="113" cy="125" r="4" fill="#ffce9a"/>
-      <ellipse cx="182" cy="130" rx="13" ry="14" fill="#0a0d12"/><circle cx="177" cy="125" r="4" fill="#ffce9a"/>
-      <path d="M150 150 C168 150 180 162 180 176 C180 192 166 202 150 202 C134 202 120 192 120 176 C120 162 132 150 150 150 Z" fill="#f3ecdf"/>
-      <path d="M150 162 C160 162 166 169 162 176 C159 181 153 184 150 188 C147 184 141 181 138 176 C134 169 140 162 150 162 Z" fill="#1c222c"/>
+    <svg viewBox="0 0 340 380" xmlns="http://www.w3.org/2000/svg" aria-label="Mapache">
+      <defs>
+        <linearGradient id="b2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a3aebd"/><stop offset="1" stop-color="#7c8898"/></linearGradient>
+        <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aab4c2"/><stop offset="1" stop-color="#8b97a6"/></linearGradient>
+      </defs>
+      <path d="M206 300 C250 304 288 280 298 234 C306 198 298 166 280 148" fill="none" stroke="#8b97a6" stroke-width="50" stroke-linecap="round"/>
+      <path d="M206 300 C250 304 288 280 298 234 C306 198 298 166 280 148" fill="none" stroke="#333c49" stroke-width="50" stroke-linecap="butt" stroke-dasharray="16 30" stroke-dashoffset="-8"/>
+      <circle cx="280" cy="148" r="25" fill="#2b333f"/>
+      <ellipse cx="126" cy="350" rx="26" ry="16" fill="#333c49"/><ellipse cx="194" cy="350" rx="26" ry="16" fill="#333c49"/>
+      <path d="M160 168 C104 168 76 214 76 268 C76 330 112 358 160 358 C208 358 244 330 244 268 C244 214 216 168 160 168 Z" fill="url(#b2)"/>
+      <ellipse cx="84" cy="270" rx="16" ry="26" fill="#333c49" transform="rotate(-14 84 270)"/>
+      <ellipse cx="236" cy="270" rx="16" ry="26" fill="#333c49" transform="rotate(14 236 270)"/>
+      <ellipse cx="160" cy="282" rx="52" ry="64" fill="#f1e9db"/>
+      <path d="M104 58 C92 14 138 14 152 56 C134 50 120 50 104 58 Z" fill="#8b97a6"/>
+      <path d="M216 58 C228 14 182 14 168 56 C186 50 200 50 216 58 Z" fill="#8b97a6"/>
+      <path d="M112 54 C104 26 138 26 146 52 C132 48 122 48 112 54 Z" fill="#2b333f"/>
+      <path d="M208 54 C216 26 182 26 174 52 C188 48 198 48 208 54 Z" fill="#2b333f"/>
+      <ellipse cx="160" cy="116" rx="92" ry="84" fill="url(#h2)"/>
+      <path d="M150 90 C150 72 130 66 112 72 C88 80 74 100 74 120 C74 142 92 156 116 154 C140 152 150 134 150 112 Z" fill="#262e3a"/>
+      <path d="M170 90 C170 72 190 66 208 72 C232 80 246 100 246 120 C246 142 228 156 204 154 C180 152 170 134 170 112 Z" fill="#262e3a"/>
+      <path d="M78 116 C80 92 102 80 124 84 C140 87 149 96 150 108 C146 100 132 96 116 98 C98 100 84 108 78 116 Z" fill="#f1e9db"/>
+      <path d="M242 116 C240 92 218 80 196 84 C180 87 171 96 170 108 C174 100 188 96 204 98 C222 100 236 108 242 116 Z" fill="#f1e9db"/>
+      <path d="M160 120 C190 120 208 142 208 162 C208 184 186 196 160 196 C134 196 112 184 112 162 C112 142 130 120 160 120 Z" fill="#f1e9db"/>
+      <circle cx="120" cy="122" r="15" fill="#10141b"/><circle cx="200" cy="122" r="15" fill="#10141b"/>
+      <circle cx="114" cy="116" r="5" fill="#fff"/><circle cx="194" cy="116" r="5" fill="#fff"/>
+      <path d="M160 142 C171 142 178 150 173 158 C168 165 163 168 160 172 C157 168 152 165 147 158 C142 150 149 142 160 142 Z" fill="#1c222c"/>
+      <path d="M160 172 L160 179" stroke="#1c222c" stroke-width="3" stroke-linecap="round"/>
+      <path d="M142 180 C150 190 170 190 178 180" stroke="#1c222c" stroke-width="3" fill="none" stroke-linecap="round"/>
     </svg>
   </div>
   <h2 class="big-name">Luz del Fondo</h2>
@@ -390,21 +392,48 @@ document.querySelectorAll('a,button').forEach(el=>{
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* VU + player */
+/* ---- reproductor con audio real ---- */
 const vu=document.getElementById('vu');for(let i=0;i<24;i++)vu.appendChild(document.createElement('i'));
 const bars=[...vu.children];
 const deck=document.getElementById('theDeck'),btn=document.getElementById('playBtn'),ico=document.getElementById('ico'),
-  counter=document.getElementById('counter'),hint=document.getElementById('hint');
-let playing=false,secs=0,tick=null,vl=null;
-const fmt=s=>String((s/60|0)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
-function vuf(){bars.forEach((b,i)=>{const c=Math.abs(i-bars.length/2)/(bars.length/2);
-  b.style.height=(playing?Math.random()*(1-c*.5)*90+10:14)+'%';});}
-btn.addEventListener('click',()=>{playing=!playing;deck.classList.toggle('playing',playing);
-  ico.innerHTML=playing?'<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>':'<path d="M8 5v14l11-7z"/>';
-  hint.textContent=playing?'Cinta girando · Lado A':'Pulsa para girar la cinta';
-  if(playing){tick=setInterval(()=>{secs++;counter.textContent=fmt(secs);},1000);vl=setInterval(vuf,110);}
-  else{clearInterval(tick);clearInterval(vl);vuf();}});
-vuf();
+  counter=document.getElementById('counter'),hint=document.getElementById('hint'),audio=document.getElementById('audio');
+const fmt=s=>{s=s||0;return String((s/60|0)).padStart(2,'0')+':'+String((s%60|0)).padStart(2,'0');};
+let actx,analyser,data,raf;
+
+function setupAudio(){
+  if(actx)return;
+  actx=new (window.AudioContext||window.webkitAudioContext)();
+  const src=actx.createMediaElementSource(audio);
+  analyser=actx.createAnalyser();analyser.fftSize=64;
+  data=new Uint8Array(analyser.frequencyBinCount);
+  src.connect(analyser);analyser.connect(actx.destination);
+}
+function draw(){
+  raf=requestAnimationFrame(draw);
+  if(!analyser)return;
+  analyser.getByteFrequencyData(data);
+  bars.forEach((b,i)=>{const idx=Math.floor(i/bars.length*data.length);
+    b.style.height=Math.max(8,(data[idx]/255)*100)+'%';});
+}
+function setPlaying(){deck.classList.add('playing');
+  ico.innerHTML='<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  hint.textContent='Sonando · Ojos de octubre';draw();}
+function setPaused(){deck.classList.remove('playing');
+  ico.innerHTML='<path d="M8 5v14l11-7z"/>';hint.textContent='Pulsa para escuchar';
+  cancelAnimationFrame(raf);bars.forEach(b=>b.style.height='14%');}
+
+audio.addEventListener('timeupdate',()=>counter.textContent=fmt(audio.currentTime));
+audio.addEventListener('loadedmetadata',()=>counter.textContent=fmt(0));
+audio.addEventListener('ended',setPaused);
+
+btn.addEventListener('click',()=>{
+  setupAudio();
+  if(actx.state==='suspended')actx.resume();
+  if(audio.paused){
+    audio.play().then(setPlaying).catch(()=>{hint.textContent='No se encontró ojos-de-octubre.mp3';});
+  }else{audio.pause();setPaused();}
+});
+bars.forEach(b=>b.style.height='14%');
 </script>
 </body>
 </html>
