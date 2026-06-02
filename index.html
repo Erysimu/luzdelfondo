@@ -4,283 +4,291 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Luz del Fondo</title>
+<meta name="description" content="Luz del Fondo — un descenso nocturno hacia una luz cálida. Indie alternativo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=DM+Mono:wght@300;400;500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --night-0:#05070c;
-  --night-1:#090d15;
-  --night-2:#0f1623;
-  --cream:#f4ecdf;
-  --cream-dim:#b6ada0;
-  --glow:#ffb061;
-  --glow-soft:#ff9647;
-  --glow-deep:#c8622a;
+  --night-0:#04060b;--night-1:#080c14;--night-2:#0e1521;
+  --cream:#f4ecdf;--cream-dim:#b6ada0;
+  --glow:#ffb061;--glow-soft:#ff9647;--glow-deep:#c8622a;
   --line:rgba(244,236,223,.12);
-  --serif:'Fraunces',Georgia,serif;
-  --mono:'DM Mono',ui-monospace,monospace;
-  --hand:'Caveat',cursive;
+  --serif:'Fraunces',Georgia,serif;--mono:'DM Mono',ui-monospace,monospace;--hand:'Caveat',cursive;
+  --p:0; /* progreso de scroll 0..1, lo setea JS */
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--night-0);color:var(--cream);font-family:var(--serif);overflow-x:hidden;
   -webkit-font-smoothing:antialiased;position:relative;cursor:none}
 
-/* ============ ATMÓSFERA ============ */
-.atmosphere{position:fixed;inset:0;z-index:0;pointer-events:none}
-.stars{position:absolute;inset:0;overflow:hidden}
-.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.5;animation:twinkle 4s infinite}
-@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.7}}
-.glow{position:absolute;left:50%;bottom:-34vh;transform:translateX(-50%);width:160vw;height:100vh;border-radius:50%;
-  background:radial-gradient(ellipse at center,rgba(255,176,97,.45) 0%,rgba(255,150,71,.20) 30%,
-  rgba(200,98,42,.07) 55%,transparent 72%);filter:blur(8px);animation:breathe 9s ease-in-out infinite}
-.glow.two{bottom:-50vh;width:90vw;height:80vh;background:radial-gradient(ellipse at center,rgba(255,200,120,.25),transparent 65%);animation-duration:7s}
-@keyframes breathe{0%,100%{opacity:.85;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.06)}}
-.vignette{position:absolute;inset:0;background:radial-gradient(ellipse 120% 95% at 50% 38%,transparent 38%,rgba(2,3,6,.78) 100%)}
+/* ============ LA LUZ DEL FONDO — crece con el scroll ============ */
+#deep{position:fixed;left:50%;bottom:-12vh;z-index:0;pointer-events:none;
+  width:60vmin;height:60vmin;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,
+    rgba(255,196,130,.95) 0%,rgba(255,176,97,.55) 22%,rgba(230,130,60,.22) 45%,transparent 70%);
+  filter:blur(6px);
+  transform:translate(-50%,0) scale(calc(.34 + var(--p)*3.1));
+  opacity:calc(.45 + var(--p)*.55);will-change:transform,opacity}
+/* tibieza ambiente que sube con el descenso */
+#warm{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 100% 70% at 50% 100%,rgba(255,150,80,.5),transparent 60%);
+  opacity:var(--p);will-change:opacity}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 120% 95% at 50% 40%,transparent 42%,rgba(2,3,6,.82) 100%)}
+
+/* atmósfera fija */
 #dust{position:fixed;inset:0;z-index:1;pointer-events:none}
-.grain{position:fixed;inset:-50%;z-index:70;pointer-events:none;opacity:.045;mix-blend-mode:screen;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grainshift .4s steps(2) infinite}
-@keyframes grainshift{0%{transform:translate(0,0)}50%{transform:translate(-3%,2%)}100%{transform:translate(2%,-2%)}}
-.scan{position:fixed;inset:0;z-index:69;pointer-events:none;opacity:.3;
+.stars{position:fixed;inset:0 0 40% 0;z-index:0;pointer-events:none;overflow:hidden;opacity:calc(1 - var(--p)*1.4)}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;animation:tw 4s infinite}
+@keyframes tw{0%,100%{opacity:.15}50%{opacity:.7}}
+.grain{position:fixed;inset:0;z-index:70;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px 150px}
+.scan{position:fixed;inset:0;z-index:69;pointer-events:none;opacity:.25;
   background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.16) 3px 4px)}
-/* cursor halo */
-#cursor{position:fixed;top:0;left:0;width:26px;height:26px;border-radius:50%;z-index:90;pointer-events:none;
-  background:radial-gradient(circle,rgba(255,176,97,.9),rgba(255,176,97,0) 70%);mix-blend-mode:screen;
-  transform:translate(-50%,-50%);transition:width .25s,height .25s}
-#cursor.big{width:60px;height:60px}
+#cursor{position:fixed;top:0;left:0;width:24px;height:24px;border-radius:50%;z-index:90;pointer-events:none;
+  margin:-12px 0 0 -12px;background:radial-gradient(circle,rgba(255,176,97,.9),rgba(255,176,97,0) 70%);
+  transform:translate3d(-100px,-100px,0);transition:width .25s,height .25s;will-change:transform}
+#cursor.big{width:58px;height:58px;margin:-29px 0 0 -29px}
 @media(hover:none){body{cursor:auto}#cursor{display:none}}
 
-main{position:relative;z-index:3}
-section{padding:clamp(90px,13vh,160px) clamp(20px,5vw,60px);display:flex;flex-direction:column;align-items:center;text-align:center}
-.wrap{width:100%;max-width:1080px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+/* progreso lateral — el "camino" recorrido */
+#trail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:60;height:42vh;width:2px;
+  background:rgba(244,236,223,.12);border-radius:2px;pointer-events:none}
+#trail::after{content:"";position:absolute;left:0;top:0;width:100%;height:calc(var(--p)*100%);
+  background:linear-gradient(var(--glow),var(--glow-deep));border-radius:2px;
+  box-shadow:0 0 10px rgba(255,176,97,.6)}
+@media(max-width:680px){#trail{display:none}}
 
-/* ============ NAV ============ */
+main{position:relative;z-index:3}
 nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
   padding:20px clamp(20px,5vw,56px);font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
   mix-blend-mode:difference;color:#fff}
 nav .brand{display:flex;align-items:center;gap:10px}
 nav .dot{width:7px;height:7px;border-radius:50%;background:var(--glow);box-shadow:0 0 10px var(--glow);animation:rec 1.6s steps(1) infinite}
 @keyframes rec{50%{opacity:.2}}
-nav .links{display:flex;gap:26px}
-nav a{color:inherit;text-decoration:none;opacity:.75;transition:opacity .3s}
+nav .links{display:flex;gap:24px}
+nav a{color:inherit;text-decoration:none;opacity:.7;transition:opacity .3s}
 nav a:hover{opacity:1}
 @media(max-width:720px){nav .links,nav .right{display:none}}
 
-/* ============ HERO ============ */
-.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;position:relative;padding:130px clamp(20px,5vw,60px) 70px;overflow:hidden}
-.hero>*{position:relative;z-index:1}
-.hero .moon{position:absolute;top:6%;left:50%;transform:translateX(-50%);z-index:0;
-  width:min(420px,72vw);height:min(420px,72vw);border-radius:50%;
-  background:radial-gradient(circle at 40% 38%,rgba(255,224,180,.22),rgba(255,176,97,.07) 45%,transparent 70%);
-  filter:blur(2px)}
-.hero .moon::after{content:"";position:absolute;inset:34%;border-radius:50%;
-  background:radial-gradient(circle at 40% 35%,rgba(255,236,205,.5),rgba(255,200,140,.12) 60%,transparent);
-  box-shadow:0 0 90px 30px rgba(255,200,140,.10)}
-.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--glow);
-  opacity:0;animation:rise 1s .2s forwards;display:flex;gap:14px;align-items:center}
-.kicker::before,.kicker::after{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--glow))}
-.kicker::after{background:linear-gradient(90deg,var(--glow),transparent)}
-.den{position:relative;width:min(230px,50vw);margin:14px 0 6px;opacity:0;animation:rise 1.2s .95s forwards}
-.den svg{width:100%;height:auto;display:block;filter:drop-shadow(0 26px 55px rgba(255,150,71,.22));
-  animation:float 6s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.den .blink{animation:blink 5.5s infinite}
-@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%,98%{transform:scaleY(.08)}}
-.title{font-size:clamp(3.8rem,16vw,13rem);font-weight:300;line-height:.8;letter-spacing:-.02em;margin:.05em 0 .12em;
-  font-optical-sizing:auto;text-align:center}
-.title span{display:block;opacity:0}
-.title .l1{animation:rise 1.1s .35s forwards}
-.title .l2{font-style:italic;font-weight:400;
-  background:linear-gradient(180deg,#ffd9a8,var(--glow) 60%,var(--glow-deep));-webkit-background-clip:text;background-clip:text;
-  color:transparent;animation:rise 1.1s .5s forwards;text-shadow:0 0 60px rgba(255,176,97,.25)}
-.subtitle{font-size:clamp(1.05rem,2.4vw,1.4rem);color:var(--cream-dim);max-width:38ch;line-height:1.55;font-weight:300;
-  font-style:italic;opacity:0;animation:rise 1.1s .8s forwards}
-.scrollcue{position:absolute;bottom:30px;left:0;right:0;margin:0 auto;font-family:var(--mono);font-size:10px;
-  letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim);opacity:0;animation:rise 1s 1.4s forwards;
-  display:flex;flex-direction:column;align-items:center;gap:8px}
-.scrollcue .bar{width:1px;height:34px;background:linear-gradient(var(--glow),transparent);animation:drop 1.8s ease-in-out infinite}
+/* ============ ESTACIÓN 1 · EL UMBRAL ============ */
+.umbral{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;position:relative;overflow:hidden;padding:120px 20px 0}
+/* siluetas de ciudad en capas (parallax) */
+.sky{position:absolute;left:-5%;right:-5%;bottom:0;pointer-events:none;will-change:transform}
+.sky svg{width:110%;height:auto;display:block}
+.sky.far{bottom:8vh;opacity:.55}
+.sky.mid{bottom:2vh;opacity:.8}
+.sky.near{bottom:-1vh}
+/* faroles */
+.lamp{position:absolute;bottom:6vh;width:3px;height:80px;background:linear-gradient(transparent,#2b3542);pointer-events:none}
+.lamp::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;
+  background:var(--glow);box-shadow:0 0 16px 4px rgba(255,176,97,.7);animation:flick 6s infinite}
+@keyframes flick{0%,100%{opacity:.95}48%{opacity:.95}50%{opacity:.6}52%{opacity:.95}}
+.u-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--glow);
+  display:flex;gap:14px;align-items:center;opacity:0;animation:rise 1s .2s forwards;position:relative;z-index:2}
+.u-kicker::before,.u-kicker::after{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--glow))}
+.u-title{font-size:clamp(3.8rem,16vw,12rem);font-weight:300;line-height:.8;letter-spacing:-.02em;
+  margin:.1em 0 .14em;position:relative;z-index:2}
+.u-title span{display:block;opacity:0}
+.u-title .l1{animation:rise 1.1s .35s forwards}
+.u-title .l2{font-style:italic;font-weight:400;animation:rise 1.1s .5s forwards;
+  background:linear-gradient(180deg,#ffd9a8,var(--glow) 60%,var(--glow-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.u-sub{font-size:clamp(1rem,2.4vw,1.35rem);color:var(--cream-dim);max-width:34ch;line-height:1.55;font-weight:300;
+  font-style:italic;opacity:0;animation:rise 1.1s .8s forwards;position:relative;z-index:2}
+.cue{position:absolute;bottom:26px;left:0;right:0;margin:0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--cream-dim);opacity:0;animation:rise 1s 1.4s forwards;display:flex;flex-direction:column;
+  align-items:center;gap:8px;z-index:2}
+.cue .bar{width:1px;height:34px;background:linear-gradient(var(--glow),transparent);animation:drop 1.8s ease-in-out infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:bottom}}
 @keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 
-/* ============ MARQUEE ============ */
-.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;
-  background:rgba(255,176,97,.03);position:relative;z-index:3;width:100%;display:flex}
-.mtrack{display:flex;align-items:center;flex-shrink:0;white-space:nowrap;animation:slide 60s linear infinite;
-  font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,3vw,2rem);color:var(--cream)}
-.mtrack span{margin:0 26px;opacity:.85}
-.mtrack b{color:var(--glow);font-weight:300}
-@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+/* ============ ESTACIÓN 2 · EL CAMINO ============ */
+.camino{min-height:70svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 24px}
+.camino p{font-size:clamp(1.5rem,4.2vw,2.8rem);font-weight:300;font-style:italic;line-height:1.4;max-width:24ch;
+  color:var(--cream)}
+.camino .reveal-word{opacity:0;transform:translateY(20px);display:inline-block;transition:opacity .7s,transform .7s}
+.in .reveal-word{opacity:1;transform:none}
 
-/* ============ LABEL / REVEAL ============ */
-.label{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--glow);
-  display:flex;align-items:center;gap:14px;margin-bottom:14px;justify-content:center}
-.label::before,.label::after{content:"";width:40px;height:1px;background:var(--glow);opacity:.6}
-.sec-title{font-size:clamp(2rem,5vw,3.4rem);font-weight:300;font-style:italic;margin-bottom:46px;line-height:1.05}
-.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s}
-.reveal.in{opacity:1;transform:none}
-
-/* ============ DECK ============ */
-#deck{padding-top:clamp(48px,6vh,80px)}
-.deck{width:100%;max-width:980px;background:linear-gradient(155deg,#18243300,#0c121c);
-  border:1px solid var(--line);border-radius:20px;padding:clamp(26px,4vw,52px);
-  box-shadow:0 50px 110px rgba(0,0,0,.6),inset 0 1px 0 rgba(244,236,223,.06);position:relative;overflow:hidden;
-  background-color:#0e1623}
-.deck::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,176,97,.10),transparent 55%);pointer-events:none}
-.deck::after{content:"";position:absolute;left:0;right:0;bottom:0;height:50%;
-  background:linear-gradient(transparent,rgba(255,176,97,.05));pointer-events:none}
-.deck-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(24px,4vw,50px);align-items:center;position:relative}
+/* ============ ESTACIÓN 3 · EL CUARTO / LA VENTANA ============ */
+.cuarto{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:clamp(70px,10vh,120px) clamp(20px,5vw,60px);text-align:center}
+.station-tag{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--glow);
+  display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:14px}
+.station-tag::before,.station-tag::after{content:"";width:38px;height:1px;background:var(--glow);opacity:.6}
+.station-title{font-size:clamp(1.8rem,5vw,3rem);font-weight:300;font-style:italic;margin-bottom:42px;line-height:1.05}
+/* marco de ventana */
+.window{width:100%;max-width:1000px;position:relative;border-radius:22px;
+  padding:clamp(20px,3vw,34px);
+  background:linear-gradient(160deg,rgba(22,32,46,.7),rgba(10,16,26,.85));
+  border:1px solid var(--line);
+  box-shadow:0 50px 120px rgba(0,0,0,.6),inset 0 1px 0 rgba(244,236,223,.06),0 0 80px rgba(255,176,97,.07);
+  backdrop-filter:blur(2px)}
+.window::before{content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;
+  background:radial-gradient(circle at 50% 120%,rgba(255,176,97,.14),transparent 60%)}
+.sill{position:absolute;left:6%;right:6%;bottom:-10px;height:14px;border-radius:0 0 12px 12px;
+  background:linear-gradient(#1b2430,#0d141e);box-shadow:0 14px 30px rgba(255,150,80,.18)}
+.deck-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(24px,4vw,48px);align-items:center;position:relative}
 @media(max-width:760px){.deck-grid{grid-template-columns:1fr}}
 .cassette{width:100%;height:auto;display:block;filter:drop-shadow(0 20px 40px rgba(0,0,0,.5))}
 .reel{transform-box:fill-box;transform-origin:center;animation:spin 3.6s linear infinite;animation-play-state:paused}
-.deck.playing .reel{animation-play-state:running}
+.playing .reel{animation-play-state:running}
 @keyframes spin{to{transform:rotate(360deg)}}
 .panel{font-family:var(--mono);text-align:left}
-@media(max-width:760px){.panel{text-align:center}.controls{justify-content:center}}
+@media(max-width:760px){.panel{text-align:center}.controls,.progressrow{justify-content:center}}
 .np{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim)}
 .track-name{font-family:var(--serif);font-size:clamp(1.5rem,3.5vw,2.4rem);font-weight:400;font-style:italic;margin:6px 0 4px}
 .track-sub{font-size:11px;letter-spacing:.2em;color:var(--cream-dim);text-transform:uppercase}
-.counter{font-size:clamp(2.4rem,6vw,3.6rem);letter-spacing:.06em;margin:18px 0;font-weight:300;color:var(--glow);
+.counter{font-size:clamp(2.2rem,6vw,3.4rem);letter-spacing:.06em;margin:16px 0 6px;font-weight:300;color:var(--glow);
   text-shadow:0 0 24px rgba(255,176,97,.4)}
-.vu{display:flex;gap:4px;align-items:flex-end;height:48px;margin:16px 0 26px}
-.vu i{flex:1;background:linear-gradient(var(--glow-deep),var(--glow));border-radius:1px;height:14%;transition:height .11s ease}
+.vu{display:flex;gap:4px;align-items:flex-end;height:46px;margin:10px 0 14px}
+.vu i{flex:1;height:100%;background:linear-gradient(var(--glow-deep),var(--glow));border-radius:1px;
+  transform:scaleY(.14);transform-origin:bottom;transition:transform .09s linear;will-change:transform}
+.progressrow{display:flex;align-items:center;gap:12px;margin:0 0 20px}
+.progress{flex:1;height:6px;border-radius:3px;background:rgba(244,236,223,.12);position:relative;overflow:hidden}
+.pfill{height:100%;width:0;background:linear-gradient(90deg,var(--glow-deep),var(--glow));border-radius:3px}
+.dur{font-family:var(--mono);font-size:11px;color:var(--cream-dim);min-width:42px;text-align:right}
 .controls{display:flex;align-items:center;gap:16px}
-.play{width:64px;height:64px;border-radius:50%;border:1px solid var(--glow);background:rgba(255,176,97,.08);
+.play{width:62px;height:62px;border-radius:50%;border:1px solid var(--glow);background:rgba(255,176,97,.08);
   color:var(--glow);cursor:none;display:grid;place-items:center;transition:.3s;flex-shrink:0}
 .play:hover{background:rgba(255,176,97,.18);box-shadow:0 0 30px rgba(255,176,97,.35)}
 .play svg{width:22px;height:22px}
-.hint{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--cream-dim)}
-.ctrl{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(244,236,223,.04);
+.ctrl{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(244,236,223,.04);
   color:var(--cream-dim);cursor:none;display:grid;place-items:center;transition:.3s;flex-shrink:0}
 .ctrl:hover{color:var(--glow);border-color:var(--glow);background:rgba(255,176,97,.1)}
-.ctrl svg{width:18px;height:18px}
-.progressrow{display:flex;align-items:center;gap:12px;margin:6px 0 22px}
-.progress{flex:1;height:6px;border-radius:3px;background:rgba(244,236,223,.12);cursor:none;position:relative;overflow:hidden}
-.pfill{height:100%;width:0;background:linear-gradient(90deg,var(--glow-deep),var(--glow));border-radius:3px}
-.dur{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--cream-dim);min-width:42px;text-align:right}
-@media(max-width:760px){.progressrow{max-width:320px;margin:6px auto 22px}}
+.ctrl svg{width:17px;height:17px}
+.hint{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--cream-dim)}
 
-/* ============ TRACKLIST ============ */
-.inlay{width:100%;max-width:980px;display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,4vw,40px)}
-@media(max-width:720px){.inlay{grid-template-columns:1fr}}
-.side{background:linear-gradient(160deg,#fbf3e6,#efe3cf);color:#1a1206;border-radius:10px;padding:34px 30px;
-  position:relative;box-shadow:0 36px 80px rgba(0,0,0,.55);transform:rotate(-.6deg);text-align:left}
-.side:nth-child(2){transform:rotate(.7deg)}
-.side::before{content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='p'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='.5'/%3E%3C/svg%3E");opacity:.06;mix-blend-mode:multiply}
-.side h3{font-family:var(--hand);font-size:2.8rem;font-weight:700;line-height:1;color:#7a2e10;margin-bottom:4px}
-.side .meta{font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:#9a5a36;
-  border-bottom:1px solid rgba(122,46,16,.25);padding-bottom:14px;margin-bottom:14px}
-.side ol{list-style:none;counter-reset:t}
-.side li{counter-increment:t;font-family:var(--hand);font-size:1.55rem;line-height:1.6;display:flex;gap:12px;align-items:baseline}
-.side li::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:10px;color:#9a5a36;
-  min-width:22px;letter-spacing:.1em;transform:translateY(-2px)}
-.side li em{flex:1;font-style:normal;border-bottom:1px dotted rgba(122,46,16,.3)}
-.side li time{font-family:var(--mono);font-size:11px;color:#9a5a36}
-
-/* ============ STATEMENT ============ */
-.statement{max-width:840px}
-.statement p{font-size:clamp(1.4rem,3.6vw,2.5rem);font-weight:300;line-height:1.42;font-style:italic}
-.statement p i{color:var(--glow);font-style:italic}
-.signo{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim);margin-top:42px;display:block}
+/* ============ ESTACIÓN 4 · LA LUZ DEL FONDO (clímax) ============ */
+.fondo{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:clamp(80px,14vh,160px) 24px;position:relative}
+.fondo .phrase{max-width:18ch;font-size:clamp(2rem,7vw,4.5rem);font-weight:300;line-height:1.12;font-style:italic;
+  text-shadow:0 0 50px rgba(0,0,0,.4)}
+.fondo .phrase i{font-style:italic;
+  background:linear-gradient(180deg,#fff2dc,var(--glow));-webkit-background-clip:text;background-clip:text;color:transparent}
+.fondo .signo{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(40,24,10,.65);margin-top:44px}
 
 /* ============ FOOTER ============ */
-footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center}
-.foot-coon{width:84px;margin:0 auto 24px}
-.foot-coon svg{width:100%;filter:drop-shadow(0 8px 26px rgba(255,150,71,.28))}
-.big-name{font-size:clamp(2.6rem,9vw,6.5rem);font-weight:300;font-style:italic;line-height:.9;margin-bottom:32px;
-  background:linear-gradient(180deg,#ffd9a8,var(--glow));-webkit-background-clip:text;background-clip:text;color:transparent}
+footer{padding:60px 24px 70px;text-align:center;display:flex;flex-direction:column;align-items:center;position:relative;z-index:3}
+.f-name{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:300;font-style:italic;margin-bottom:24px;color:#3a2410}
 .social{display:flex;gap:24px;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;margin-bottom:30px;flex-wrap:wrap}
-.social a{color:var(--cream-dim);text-decoration:none;transition:.3s}
-.social a:hover{color:var(--glow)}
-.copy{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:rgba(182,173,160,.5);text-transform:uppercase}
+  text-transform:uppercase;margin-bottom:24px;flex-wrap:wrap}
+.social a{color:rgba(40,24,10,.7);text-decoration:none;transition:.3s}
+.social a:hover{color:#1a0f04}
+.copy{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:rgba(40,24,10,.45);text-transform:uppercase}
+
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s}
+.reveal.in{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  #deep{transform:translate(-50%,0) scale(1.4);opacity:.7}.cue .bar{opacity:.5}
+}
 </style>
 </head>
 <body>
 
-<div class="atmosphere">
-  <div class="stars" id="stars"></div>
-  <div class="glow"></div>
-  <div class="glow two"></div>
-  <div class="vignette"></div>
-</div>
+<!-- atmósfera -->
+<div id="deep"></div>
+<div id="warm"></div>
+<div class="stars" id="stars"></div>
 <canvas id="dust"></canvas>
+<div class="vignette"></div>
 <div class="scan"></div>
 <div class="grain"></div>
 <div id="cursor"></div>
+<div id="trail"></div>
 
 <nav>
   <div class="brand"><span class="dot"></span>Luz del Fondo</div>
-  <div class="links">
-    <a href="#deck">Reproductor</a>
-    <a href="#sobre">Sobre</a>
-  </div>
+  <div class="links"><a href="#cuarto">El cuarto</a><a href="#fondo">La luz</a></div>
   <div class="right">Grabado de noche</div>
 </nav>
 
 <main>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="moon"></div>
-  <p class="kicker">Indie / Alternativo · Cintas de medianoche</p>
+<!-- ESTACIÓN 1 · EL UMBRAL -->
+<header class="umbral">
+  <div class="sky far" data-depth="0.10">
+    <svg viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fill="#0c1019" d="M0 200 V120 h40 v-30 h30 v40 h50 v-60 h28 v60 h44 v-25 h36 v25 h60 v-45 h30 v45 h54 v-70 h26 v70 h70 v-30 h34 v30 h48 v-50 h30 v50 h66 v-35 h30 v35 h60 v-55 h28 v55 h70 v-25 h36 v25 h52 v-40 h30 v40 h80 V200 Z"/>
+    </svg>
+  </div>
+  <div class="sky mid" data-depth="0.22">
+    <svg viewBox="0 0 1200 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fill="#0a0e16" d="M0 220 V140 h54 v-44 h40 v44 h64 v-80 h32 v80 h58 v-30 h44 v30 h70 v-60 h34 v60 h60 v-90 h30 v90 h72 v-40 h40 v40 h64 v-66 h34 v66 h70 v-34 h44 v34 h60 v-70 h32 v70 h80 V220 Z"/>
+    </svg>
+  </div>
+  <div class="sky near" data-depth="0.38">
+    <svg viewBox="0 0 1200 240" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fill="#06090f" d="M0 240 V150 h70 v-60 h50 v60 h80 v-100 h40 v100 h70 v-40 h54 v40 h84 v-120 h40 v120 h80 v-54 h48 v54 h74 v-90 h40 v90 h84 v-46 h54 v46 h74 v-86 h40 v86 h96 V240 Z"/>
+    </svg>
+  </div>
+  <div class="lamp" style="left:14%"></div>
+  <div class="lamp" style="left:30%;height:64px"></div>
+  <div class="lamp" style="left:72%;height:70px"></div>
+  <div class="lamp" style="left:88%"></div>
 
-
-  <h1 class="title"><span class="l1">Luz del</span><span class="l2">Fondo</span></h1>
-  <p class="subtitle">Canciones grabadas cuando la ciudad ya se durmió. Cintas que guardan la luz que queda al fondo de la noche.</p>
-
-  <div class="scrollcue"><span>desliza</span><span class="bar"></span></div>
+  <p class="u-kicker">Un descenso nocturno</p>
+  <h1 class="u-title"><span class="l1">Luz del</span><span class="l2">Fondo</span></h1>
+  <p class="u-sub">La ciudad ya se durmió. Solo queda una luz, encendida, al fondo de la noche. Desciende hacia ella.</p>
+  <div class="cue"><span>desciende</span><span class="bar"></span></div>
 </header>
 
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="mtrack"><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b></div>
-  <div class="mtrack" aria-hidden="true"><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b><span>Luz del Fondo</span><b>✦</b><span>Ojos de octubre</span><b>✦</b><span>demo</span><b>✦</b><span>indie nocturno</span><b>✦</b></div>
-</div>
+<!-- ESTACIÓN 2 · EL CAMINO -->
+<section class="camino reveal">
+  <p id="caminoText">Cada farol que dejas atrás te acerca un poco más.</p>
+</section>
 
-<!-- DECK -->
-<section id="deck">
-  <div class="wrap reveal">
-    <p class="label">Reproductor</p>
-    <h2 class="sec-title">Pon a girar la cinta</h2>
-    <div class="deck" id="theDeck">
+<!-- ESTACIÓN 3 · EL CUARTO -->
+<section class="cuarto" id="cuarto">
+  <div class="reveal" style="width:100%;display:flex;flex-direction:column;align-items:center">
+    <p class="station-tag">La ventana encendida</p>
+    <h2 class="station-title">Adentro, una cinta sigue girando</h2>
+    <div class="window" id="theDeck">
       <div class="deck-grid">
-        <svg class="cassette" viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg" aria-label="Cassette">
-          <rect x="6" y="6" width="408" height="248" rx="16" fill="#0b1220" stroke="rgba(244,236,223,.14)"/>
-          <rect x="22" y="22" width="376" height="216" rx="10" fill="#111e2d"/>
-          <rect x="44" y="40" width="332" height="92" rx="6" fill="#f3ecdf"/>
-          <rect x="44" y="40" width="332" height="20" rx="6" fill="#ffb061"/>
-          <text x="58" y="55" font-family="DM Mono, monospace" font-size="11" fill="#1a1206" letter-spacing="2">LUZ DEL FONDO · DEMO</text>
-          <text x="60" y="92" font-family="Caveat, cursive" font-size="30" fill="#7a2e10">ojos de octubre</text>
-          <text x="60" y="118" font-family="DM Mono, monospace" font-size="10" fill="#9a5a36" letter-spacing="2">SENCILLO · 2025</text>
-          <rect x="22" y="156" width="376" height="11" fill="#ffb061"/>
-          <rect x="22" y="167" width="376" height="11" fill="#e07a3c"/>
-          <rect x="22" y="178" width="376" height="11" fill="#c0503a"/>
-          <rect x="22" y="189" width="376" height="11" fill="#2f6b6e"/>
-          <rect x="22" y="200" width="376" height="11" fill="#e9ddc8"/>
-          <rect x="120" y="150" width="180" height="70" rx="8" fill="#0a0d12"/>
-          <circle cx="150" cy="185" r="30" fill="#1c2632"/>
+        <svg class="cassette" viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" aria-label="Cassette Ojos de octubre">
+          <rect x="6" y="6" width="448" height="288" rx="22" fill="#141a23" stroke="rgba(244,236,223,.12)"/>
+          <rect x="14" y="14" width="432" height="272" rx="17" fill="#1b2430"/>
+          <rect x="46" y="30" width="368" height="92" rx="7" fill="#f1e9db"/>
+          <rect x="46" y="30" width="368" height="20" rx="7" fill="#ffb061"/>
+          <rect x="46" y="40" width="368" height="10" fill="#ffb061"/>
+          <text x="60" y="45" font-family="DM Mono, monospace" font-size="11" fill="#1a1206" letter-spacing="2">LUZ DEL FONDO · DEMO</text>
+          <text x="62" y="83" font-family="Caveat, cursive" font-size="30" fill="#7a2e10">ojos de octubre</text>
+          <text x="62" y="110" font-family="DM Mono, monospace" font-size="10" fill="#9a5a36" letter-spacing="2">SENCILLO · 2025</text>
+          <rect x="14" y="150" width="432" height="9" fill="#ffb061"/>
+          <rect x="14" y="159" width="432" height="9" fill="#e8924a"/>
+          <rect x="14" y="168" width="432" height="9" fill="#d2622f"/>
+          <rect x="14" y="177" width="432" height="9" fill="#bb4733"/>
+          <rect x="14" y="186" width="432" height="9" fill="#2f6b6e"/>
+          <rect x="14" y="195" width="432" height="9" fill="#e9ddc8"/>
+          <rect x="128" y="138" width="204" height="64" rx="8" fill="#0a0d12" stroke="#000" stroke-width="1"/>
+          <circle cx="165" cy="170" r="27" fill="#10151d"/>
+          <circle cx="295" cy="170" r="27" fill="#10151d"/>
+          <rect x="214" y="152" width="32" height="36" rx="3" fill="#566273"/>
+          <g stroke="#aab3c0" stroke-width="2" stroke-linecap="round"><path d="M223 158 L223 182"/><path d="M230 158 L230 182"/><path d="M237 158 L237 182"/></g>
           <g class="reel" style="transform-origin:center">
-            <circle cx="150" cy="185" r="22" fill="none" stroke="#ffb061" stroke-width="2" opacity=".5"/>
-            <g stroke="#cdd4dd" stroke-width="3" stroke-linecap="round">
-              <path d="M150 169 L150 175"/><path d="M150 195 L150 201"/><path d="M134 185 L140 185"/><path d="M160 185 L166 185"/>
-              <path d="M139 174 L143 178"/><path d="M157 192 L161 196"/><path d="M161 174 L157 178"/><path d="M143 192 L139 196"/></g>
-            <circle cx="150" cy="185" r="7" fill="#0a0d12" stroke="#cdd4dd" stroke-width="2"/></g>
-          <circle cx="270" cy="185" r="30" fill="#1c2632"/>
+            <circle cx="165" cy="170" r="15" fill="#e3e7ee"/>
+            <g stroke="#9aa3b0" stroke-width="3" stroke-linecap="round"><path d="M153 170 L177 170"/><path d="M159 159.6 L171 180.4"/><path d="M171 159.6 L159 180.4"/></g>
+            <circle cx="165" cy="170" r="5" fill="#0a0d12"/></g>
           <g class="reel" style="transform-origin:center">
-            <circle cx="270" cy="185" r="14" fill="none" stroke="#ffb061" stroke-width="2" opacity=".5"/>
-            <g stroke="#cdd4dd" stroke-width="3" stroke-linecap="round">
-              <path d="M270 169 L270 175"/><path d="M270 195 L270 201"/><path d="M254 185 L260 185"/><path d="M280 185 L286 185"/>
-              <path d="M259 174 L263 178"/><path d="M277 192 L281 196"/><path d="M281 174 L277 178"/><path d="M263 192 L259 196"/></g>
-            <circle cx="270" cy="185" r="7" fill="#0a0d12" stroke="#cdd4dd" stroke-width="2"/></g>
-          <g fill="#2b3542"><circle cx="40" cy="38" r="4"/><circle cx="380" cy="38" r="4"/><circle cx="40" cy="222" r="4"/><circle cx="380" cy="222" r="4"/><circle cx="210" cy="232" r="4"/></g>
+            <circle cx="295" cy="170" r="15" fill="#e3e7ee"/>
+            <g stroke="#9aa3b0" stroke-width="3" stroke-linecap="round"><path d="M283 170 L307 170"/><path d="M289 159.6 L301 180.4"/><path d="M301 159.6 L289 180.4"/></g>
+            <circle cx="295" cy="170" r="5" fill="#0a0d12"/></g>
+          <rect x="120" y="244" width="220" height="34" rx="8" fill="#0e141d"/>
+          <rect x="150" y="256" width="22" height="14" rx="2" fill="#222c39"/>
+          <rect x="214" y="252" width="32" height="20" rx="3" fill="#222c39"/>
+          <rect x="288" y="256" width="22" height="14" rx="2" fill="#222c39"/>
+          <circle cx="190" cy="263" r="4" fill="#222c39"/><circle cx="270" cy="263" r="4" fill="#222c39"/>
+          <g fill="#0e141d" stroke="#2b3542" stroke-width="1.5">
+            <circle cx="40" cy="40" r="6"/><circle cx="420" cy="40" r="6"/><circle cx="40" cy="260" r="6"/><circle cx="420" cy="260" r="6"/><circle cx="230" cy="232" r="5"/></g>
         </svg>
         <div class="panel">
-          <p class="np">► Demo · Luz del Fondo</p>
-          <p class="track-name" id="tName">Ojos de octubre</p>
-          <p class="track-sub" id="tSub">Sencillo</p>
+          <p class="np">► Suena en el cuarto</p>
+          <p class="track-name">Ojos de octubre</p>
+          <p class="track-sub">Sencillo</p>
           <p class="counter" id="counter">00:00</p>
           <div class="vu" id="vu"></div>
           <div class="progressrow">
@@ -299,123 +307,144 @@ footer{padding:90px 20px 64px;text-align:center;border-top:1px solid var(--line)
           <audio id="audio" src="ojos-de-octubre.mp3" preload="metadata"></audio>
         </div>
       </div>
+      <div class="sill"></div>
     </div>
   </div>
 </section>
 
-<!-- STATEMENT -->
-<section id="sobre">
-  <div class="wrap statement reveal">
-    <p class="label">Sobre el proyecto</p>
-    <p>No hago canciones para el día. Las hago para esa hora en que solo quedan <i>los faroles</i>, una guitarra con reverb y el zumbido de la ciudad dormida.</p>
-    <span class="signo">— Cintas de medianoche · Chile</span>
-  </div>
+<!-- ESTACIÓN 4 · LA LUZ DEL FONDO -->
+<section class="fondo" id="fondo">
+  <p class="phrase reveal">Y al final del descenso, ya no hay ciudad. <i>Solo la luz, y la canción que dejaste sonando.</i></p>
+  <p class="signo reveal">Luz del Fondo · grabado de noche · Chile</p>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <h2 class="big-name">Luz del Fondo</h2>
+  <p class="f-name">Luz del Fondo</p>
   <div class="social"><a href="#">Spotify</a><a href="#">Bandcamp</a><a href="#">Instagram</a><a href="#">YouTube</a></div>
-  <p class="copy">© 2025 Luz del Fondo · todo grabado de noche · hecho en Chile</p>
+  <p class="copy">© 2025 · todo grabado de noche</p>
 </footer>
 
 </main>
 
 <script>
-/* estrellas */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const touch=matchMedia('(hover: none)').matches;
+const small=innerWidth<760;
+const root=document.documentElement;
+
+/* ---- scroll → progreso global (1 solo rAF) ---- */
+const skies=[...document.querySelectorAll('.sky')];
+let sy=0,scrollPending=false;
+function onScroll(){sy=window.scrollY||window.pageYOffset;
+  if(!scrollPending){scrollPending=true;requestAnimationFrame(applyScroll);}}
+function applyScroll(){
+  scrollPending=false;
+  const max=document.body.scrollHeight-innerHeight;
+  const p=max>0?Math.min(1,sy/max):0;
+  root.style.setProperty('--p',p.toFixed(4));
+  // parallax de las siluetas (solo mientras se ven, ~primer pantallazo)
+  if(sy<innerHeight*1.2){
+    for(const el of skies){const d=parseFloat(el.dataset.depth);
+      el.style.transform='translate3d('+(mx*d*40)+'px,'+(sy*d)+'px,0)';}
+  }
+}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',()=>{onScroll();},{passive:true});
+
+/* ---- mouse: profundidad sutil + cursor ---- */
+let mx=0,my=0;
+const cur=document.getElementById('cursor');
+if(touch){if(cur)cur.style.display='none';}
+if(!reduce){
+  let curRAF=null;
+  addEventListener('mousemove',e=>{
+    mx=(e.clientX/innerWidth-0.5)*2; my=(e.clientY/innerHeight-0.5)*2;
+    if(!touch&&!curRAF)curRAF=requestAnimationFrame(()=>{
+      cur.style.transform='translate3d('+e.clientX+'px,'+e.clientY+'px,0)';curRAF=null;});
+    if(sy<innerHeight*1.2&&!scrollPending){scrollPending=true;requestAnimationFrame(applyScroll);}
+  },{passive:true});
+  document.querySelectorAll('a,button,.progress').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cur&&cur.classList.add('big'));
+    el.addEventListener('mouseleave',()=>cur&&cur.classList.remove('big'));});
+}
+
+/* ---- estrellas ---- */
 const sk=document.getElementById('stars');
-for(let i=0;i<70;i++){const s=document.createElement('div');s.className='star';
-  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*55+'%';
+const starN=reduce?0:(small?22:44);
+for(let i=0;i<starN;i++){const s=document.createElement('div');s.className='star';
+  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*60+'%';
   s.style.animationDelay=Math.random()*4+'s';s.style.opacity=Math.random()*.5+.2;sk.appendChild(s);}
 
-/* polvo/luciérnagas */
-const cv=document.getElementById('dust'),cx=cv.getContext('2d');let W,H,ps=[];
-function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
-resize();addEventListener('resize',resize);
-for(let i=0;i<46;i++)ps.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,
-  r:Math.random()*1.8+.4,s:Math.random()*.4+.1,a:Math.random()*.5+.2,d:Math.random()*Math.PI*2});
-function dust(){cx.clearRect(0,0,W,H);ps.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.d+=.01)*.3;
-  if(p.y<-5){p.y=H+5;p.x=Math.random()*W;}
-  cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);
-  cx.fillStyle='rgba(255,190,120,'+p.a*(.5+.5*Math.sin(p.d*2))+')';cx.fill();});
-  requestAnimationFrame(dust);}dust();
+/* ---- polvo (pausa al ocultar pestaña) ---- */
+const cv=document.getElementById('dust');
+if(reduce){cv.style.display='none';}
+else{
+  const cx=cv.getContext('2d');let W,H,ps=[],dRAF=null;
+  const N=small?12:26;
+  function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+  rs();addEventListener('resize',rs,{passive:true});
+  for(let i=0;i<N;i++)ps.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+    r:Math.random()*1.5+.4,s:Math.random()*.3+.08,a:Math.random()*.45+.2,d:Math.random()*6.28});
+  function dust(){cx.clearRect(0,0,W,H);
+    for(const p of ps){p.y-=p.s;p.x+=Math.sin(p.d+=.01)*.3;
+      if(p.y<-5){p.y=H+5;p.x=Math.random()*W;}
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);
+      cx.fillStyle='rgba(255,190,120,'+(p.a*(.5+.5*Math.sin(p.d*2))).toFixed(3)+')';cx.fill();}
+    dRAF=requestAnimationFrame(dust);}
+  dust();
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){cancelAnimationFrame(dRAF);dRAF=null;}else if(!dRAF)dust();});
+}
 
-/* cursor */
-const cur=document.getElementById('cursor');
-addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
-  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));});
-
-/* reveal */
+/* ---- reveal por scroll ---- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* ---- reproductor con audio real ---- */
-const vu=document.getElementById('vu');for(let i=0;i<24;i++)vu.appendChild(document.createElement('i'));
+/* ---- camino: revelar palabra por palabra ---- */
+const ct=document.getElementById('caminoText');
+if(ct){const words=ct.textContent.split(' ');
+  ct.innerHTML=words.map((w,i)=>'<span class="reveal-word" style="transition-delay:'+(i*0.08)+'s">'+w+'</span>').join(' ');}
+
+/* ---- reproductor ---- */
+const vu=document.getElementById('vu');for(let i=0;i<22;i++)vu.appendChild(document.createElement('i'));
 const bars=[...vu.children];
 const deck=document.getElementById('theDeck'),btn=document.getElementById('playBtn'),ico=document.getElementById('ico'),
   counter=document.getElementById('counter'),hint=document.getElementById('hint'),audio=document.getElementById('audio'),
   restartBtn=document.getElementById('restartBtn'),progress=document.getElementById('progress'),
   pfill=document.getElementById('pfill'),tDur=document.getElementById('tDur');
 const fmt=s=>{s=s||0;return String((s/60|0)).padStart(2,'0')+':'+String((s%60|0)).padStart(2,'0');};
-const PLAY='<path d="M8 5v14l11-7z"/>', PAUSE='<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
-let actx,analyser,data,raf,synthRaf,t=0;
-
-function setupAudio(){
-  if(actx)return;
+const PLAY='<path d="M8 5v14l11-7z"/>',PAUSE='<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+let actx,analyser,data,raf,synthRaf,tt=0;
+function setupAudio(){if(actx)return;
   actx=new (window.AudioContext||window.webkitAudioContext)();
-  const src=actx.createMediaElementSource(audio);
-  analyser=actx.createAnalyser();analyser.fftSize=64;
-  data=new Uint8Array(analyser.frequencyBinCount);
-  src.connect(analyser);analyser.connect(actx.destination);
-}
-function drawReal(){
-  raf=requestAnimationFrame(drawReal);
-  if(!analyser)return;
+  const src=actx.createMediaElementSource(audio);analyser=actx.createAnalyser();analyser.fftSize=64;
+  data=new Uint8Array(analyser.frequencyBinCount);src.connect(analyser);analyser.connect(actx.destination);}
+function drawReal(){raf=requestAnimationFrame(drawReal);if(!analyser)return;
   analyser.getByteFrequencyData(data);
   bars.forEach((b,i)=>{const idx=Math.floor(i/bars.length*data.length);
-    b.style.height=Math.max(8,(data[idx]/255)*100)+'%';});
-}
-function drawSynth(){            /* sin MP3: barras animadas para que se vea vivo */
-  synthRaf=requestAnimationFrame(drawSynth);t+=0.08;
+    b.style.transform='scaleY('+Math.max(.08,data[idx]/255).toFixed(3)+')';});}
+function drawSynth(){synthRaf=requestAnimationFrame(drawSynth);tt+=0.08;
   bars.forEach((b,i)=>{const c=Math.abs(i-bars.length/2)/(bars.length/2);
-    const v=(Math.sin(t+i*0.5)*0.5+0.5)*(1-c*0.5);
-    b.style.height=Math.max(10,v*90+10)+'%';});
-}
+    const v=(Math.sin(tt+i*0.5)*0.5+0.5)*(1-c*0.5);
+    b.style.transform='scaleY('+Math.max(.1,v*0.9+0.1).toFixed(3)+')';});}
 function stopDraws(){cancelAnimationFrame(raf);cancelAnimationFrame(synthRaf);}
-function uiPlay(){deck.classList.add('playing');ico.innerHTML=PAUSE;}   /* .playing => giran las ruedas */
-function uiPause(){deck.classList.remove('playing');ico.innerHTML=PLAY;
-  hint.textContent='Pulsa para escuchar';stopDraws();bars.forEach(b=>b.style.height='14%');}
-
-audio.addEventListener('timeupdate',()=>{
-  counter.textContent=fmt(audio.currentTime);
-  if(audio.duration)pfill.style.width=(audio.currentTime/audio.duration*100)+'%';
-});
+function uiPlay(){deck.classList.add('playing');ico.innerHTML=PAUSE;}
+function uiPause(){deck.classList.remove('playing');ico.innerHTML=PLAY;hint.textContent='Pulsa para escuchar';
+  stopDraws();bars.forEach(b=>b.style.transform='scaleY(.14)');}
+audio.addEventListener('timeupdate',()=>{counter.textContent=fmt(audio.currentTime);
+  if(audio.duration)pfill.style.width=(audio.currentTime/audio.duration*100)+'%';});
 audio.addEventListener('loadedmetadata',()=>{tDur.textContent=fmt(audio.duration);counter.textContent='00:00';});
 audio.addEventListener('ended',()=>{uiPause();pfill.style.width='0%';counter.textContent='00:00';});
+btn.addEventListener('click',()=>{setupAudio();if(actx.state==='suspended')actx.resume();
+  if(audio.paused){audio.play().then(()=>{uiPlay();hint.textContent='Sonando · Ojos de octubre';stopDraws();drawReal();})
+    .catch(()=>{uiPlay();hint.textContent='Sube ojos-de-octubre.mp3 para oírla';stopDraws();drawSynth();});}
+  else{audio.pause();uiPause();}});
+restartBtn.addEventListener('click',()=>{audio.currentTime=0;pfill.style.width='0%';counter.textContent='00:00';});
+progress.addEventListener('click',e=>{if(!audio.duration)return;const r=progress.getBoundingClientRect();
+  audio.currentTime=Math.min(audio.duration,Math.max(0,(e.clientX-r.left)/r.width*audio.duration));});
+bars.forEach(b=>b.style.transform='scaleY(.14)');
 
-btn.addEventListener('click',()=>{
-  setupAudio();
-  if(actx.state==='suspended')actx.resume();
-  if(audio.paused){
-    audio.play().then(()=>{uiPlay();hint.textContent='Sonando · Ojos de octubre';stopDraws();drawReal();})
-    .catch(()=>{ /* todavía sin MP3: igual giran las ruedas (modo demo) */
-      uiPlay();hint.textContent='Sube ojos-de-octubre.mp3 para oírla';stopDraws();drawSynth();});
-  }else{audio.pause();uiPause();}
-});
-
-restartBtn.addEventListener('click',()=>{
-  audio.currentTime=0;pfill.style.width='0%';counter.textContent='00:00';
-});
-
-progress.addEventListener('click',e=>{
-  if(!audio.duration)return;
-  const r=progress.getBoundingClientRect();
-  audio.currentTime=Math.min(audio.duration,Math.max(0,(e.clientX-r.left)/r.width*audio.duration));
-});
-
-bars.forEach(b=>b.style.height='14%');
+applyScroll();
 </script>
 </body>
 </html>
