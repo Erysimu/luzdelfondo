@@ -226,8 +226,8 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
   color:var(--cream);text-shadow:0 1px 16px rgba(0,0,0,.45)}
 .f-lead{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--cream-dim);margin-bottom:30px;text-shadow:0 1px 10px rgba(0,0,0,.4)}
-.links-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:100%;max-width:520px;margin-bottom:30px}
-.link-card{display:flex;align-items:center;gap:14px;text-decoration:none;text-align:left;
+.links-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;width:100%;max-width:520px;margin-bottom:30px}
+.link-card{flex:1 1 220px;max-width:250px;display:flex;align-items:center;gap:14px;text-decoration:none;text-align:left;
   background:linear-gradient(150deg,rgba(22,32,46,.55),rgba(10,16,26,.7));border:1px solid var(--line);
   border-radius:14px;padding:16px 18px;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:none}
 .link-card:hover{transform:translateY(-3px);border-color:rgba(255,176,97,.45);
@@ -427,13 +427,15 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
    ==================================================================== */
 const LINKS={
   spotify:'',     // ej: 'https://open.spotify.com/artist/...'
-  instagram:'',   // ej: 'https://instagram.com/luzdelfondo'
+  instagram:'https://www.instagram.com/luzdelfondo/',
   tiktok:'',      // ej: 'https://tiktok.com/@luzdelfondo'
   youtube:''      // ej: 'https://youtube.com/@luzdelfondo'
 };
 Object.keys(LINKS).forEach(k=>{
   const card=document.getElementById('lk-'+k);
-  if(card&&LINKS[k])card.href=LINKS[k];   // si pones la URL, queda activa; si no, queda como botón listo
+  if(!card)return;
+  if(LINKS[k])card.href=LINKS[k];   // con URL => activa
+  else card.style.display='none';   // sin URL => se oculta
 });
 
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -590,7 +592,7 @@ const EVENTS=[
         '<div class="lamp-ico"></div>'+
         '<p>El muro aún está en penumbra.</p>'+
         '<p class="sub">Pronto se encenderán las primeras fechas en vivo y nuevas canciones. Vuelve a bajar por aquí.</p>'+
-        '<div class="notify"><a href="#">Spotify</a><a href="#">Instagram</a></div>'+
+        '<div class="notify"><a href="https://www.instagram.com/luzdelfondo/" target="_blank" rel="noopener">Sígueme en Instagram</a></div>'+
       '</div>';
     return;
   }
