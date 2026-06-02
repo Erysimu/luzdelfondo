@@ -83,6 +83,7 @@ nav a:hover{opacity:1}
 .sky.mid{bottom:2vh;opacity:.8}
 .sky.near{bottom:-1vh}
 /* faroles */
+.lamps{position:absolute;inset:0;pointer-events:none;will-change:transform}
 .lamp{position:absolute;bottom:6vh;width:3px;height:80px;background:linear-gradient(transparent,#2b3542);pointer-events:none}
 .lamp::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;
   background:var(--glow);box-shadow:0 0 16px 4px rgba(255,176,97,.7);animation:flick 6s infinite}
@@ -290,10 +291,12 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
       <path fill="#06090f" d="M0 240 V150 h70 v-60 h50 v60 h80 v-100 h40 v100 h70 v-40 h54 v40 h84 v-120 h40 v120 h80 v-54 h48 v54 h74 v-90 h40 v90 h84 v-46 h54 v46 h74 v-86 h40 v86 h96 V240 Z"/>
     </svg>
   </div>
-  <div class="lamp" style="left:14%"></div>
-  <div class="lamp" style="left:30%;height:64px"></div>
-  <div class="lamp" style="left:72%;height:70px"></div>
-  <div class="lamp" style="left:88%"></div>
+  <div class="lamps" data-depth="0.38">
+    <div class="lamp" style="left:14%"></div>
+    <div class="lamp" style="left:30%;height:64px"></div>
+    <div class="lamp" style="left:72%;height:70px"></div>
+    <div class="lamp" style="left:88%"></div>
+  </div>
 
   <p class="u-kicker">Un descenso nocturno</p>
   <h1 class="u-title"><span class="l1">Luz del</span><span class="l2">Fondo</span></h1>
@@ -321,7 +324,7 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
           <rect x="46" y="40" width="368" height="10" fill="#ffb061"/>
           <text x="60" y="45" font-family="DM Mono, monospace" font-size="11" fill="#1a1206" letter-spacing="2">LUZ DEL FONDO · DEMO</text>
           <text x="62" y="83" font-family="Caveat, cursive" font-size="30" fill="#7a2e10">ojos de octubre</text>
-          <text x="62" y="110" font-family="DM Mono, monospace" font-size="10" fill="#9a5a36" letter-spacing="2">SENCILLO · 2025</text>
+          <text x="62" y="110" font-family="DM Mono, monospace" font-size="10" fill="#9a5a36" letter-spacing="2">SENCILLO · 2026</text>
           <rect x="14" y="150" width="432" height="9" fill="#ffb061"/>
           <rect x="14" y="159" width="432" height="9" fill="#e8924a"/>
           <rect x="14" y="168" width="432" height="9" fill="#d2622f"/>
@@ -416,7 +419,7 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
       <span class="tx"><b>YouTube</b><span>Videos y vivos</span></span>
     </a>
   </div>
-  <p class="copy">© 2025 · todo grabado de noche</p>
+  <p class="copy">© 2026 · todo grabado de noche</p>
 </footer>
 
 </main>
@@ -444,7 +447,7 @@ const small=innerWidth<760;
 const root=document.documentElement;
 
 /* ---- scroll → progreso global (1 solo rAF) ---- */
-const skies=[...document.querySelectorAll('.sky')];
+const skies=[...document.querySelectorAll('[data-depth]')];
 let sy=0,scrollPending=false;
 function onScroll(){sy=window.scrollY||window.pageYOffset;
   if(!scrollPending){scrollPending=true;requestAnimationFrame(applyScroll);}}
@@ -580,7 +583,7 @@ bars.forEach(b=>b.style.transform='scaleY(.14)');
 const EVENTS=[
   // Ejemplos (comentados). Descomenta y edita cuando tengas algo real:
   // {type:'show',    day:'12', month:'OCT', title:'Luz del Fondo en vivo', meta:'Sala Master · Santiago', url:'#'},
-  // {type:'release', day:'03', month:'NOV', title:'Nuevo single', meta:'Single · 2025', url:'#'},
+  // {type:'release', day:'03', month:'NOV', title:'Nuevo single', meta:'Single · 2026', url:'#'},
 ];
 
 (function renderWall(){
