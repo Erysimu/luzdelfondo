@@ -136,14 +136,14 @@ nav a:hover{opacity:1}
 .u-pill{display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:5px;
   border:2px solid var(--ink);background:#f1e7d0;color:var(--ink);text-decoration:none;
   font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
-  box-shadow:3px 4px 0 rgba(38,43,51,.2);transform:rotate(1.6deg);
+  box-shadow:3px 4px 0 rgba(38,43,51,.2);transform:rotate(var(--rot,0deg));
   transition:transform .25s,box-shadow .25s,background .25s}
-.u-pill:hover{transform:rotate(1.6deg) translate(-2px,-2px);background:#efe2c6;box-shadow:4px 5px 0 rgba(38,43,51,.24)}
+.u-pill:hover{transform:rotate(var(--rot,0deg)) translate(-2px,-2px);background:#efe2c6;box-shadow:4px 5px 0 rgba(38,43,51,.24)}
 .u-pill .pi{width:17px;height:17px;display:grid;place-items:center;color:var(--glow-deep);flex-shrink:0}
 .u-pill .pi svg{width:17px;height:17px}
 .u-pill.soon{background:rgba(241,231,208,.5);border-color:rgba(38,43,51,.28);border-style:dashed;
-  color:var(--cream-dim);box-shadow:2px 3px 0 rgba(38,43,51,.1);cursor:default;transform:rotate(1.6deg)}
-.u-pill.soon:hover{transform:rotate(1.6deg)}
+  color:var(--cream-dim);box-shadow:2px 3px 0 rgba(38,43,51,.1);cursor:default;transform:rotate(var(--rot,0deg))}
+.u-pill.soon:hover{transform:rotate(var(--rot,0deg))}
 .u-pill.soon .pi{color:var(--cream-dim)}
 .u-pill.soon em{font-style:normal;font-size:8.5px;letter-spacing:.12em;opacity:.7;
   border:1px solid currentColor;border-radius:3px;padding:1px 5px;margin-left:2px}
@@ -411,7 +411,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
     </a>
   </div>
   <div class="u-links" id="u-links"></div>
-  <div class="cue"><span>desciende</span><span class="bar"></span></div>
+  
 </header>
 
 <!-- ESTACIÓN 2 · EL CAMINO -->
@@ -540,11 +540,13 @@ const ICONS={
 const LABELS={spotify:'Spotify',applemusic:'Apple Music',soundcloud:'SoundCloud',youtube:'YouTube',instagram:'Instagram'};
 const uLinks=document.getElementById('u-links');
 if(uLinks){
-  const html=Object.keys(LINKS).map(k=>{
+  const ANGLES=['-2.4deg','1.9deg','-1.6deg','2.4deg','-2deg','1.6deg'];
+  const html=Object.keys(LINKS).map((k,i)=>{
     const ic='<span class="pi">'+ICONS[k]+'</span>';
+    const rot='--rot:'+ANGLES[i%ANGLES.length];
     if(LINKS[k])
-      return '<a class="u-pill" href="'+LINKS[k]+'" target="_blank" rel="noopener" aria-label="'+LABELS[k]+'">'+ic+LABELS[k]+'</a>';
-    return '<span class="u-pill soon" aria-disabled="true">'+ic+LABELS[k]+'<em>pronto</em></span>';
+      return '<a class="u-pill" style="'+rot+'" href="'+LINKS[k]+'" target="_blank" rel="noopener" aria-label="'+LABELS[k]+'">'+ic+LABELS[k]+'</a>';
+    return '<span class="u-pill soon" style="'+rot+'" aria-disabled="true">'+ic+LABELS[k]+'<em>pronto</em></span>';
   }).join('');
   uLinks.innerHTML=html;
 }
