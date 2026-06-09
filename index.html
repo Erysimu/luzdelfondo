@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light only">
 <meta name="supported-color-schemes" content="light">
 <title>Luz del Fondo</title>
-<meta name="description" content="Luz del Fondo — un descenso nocturno hacia una luz cálida. Indie alternativo, grabado de noche.">
+<meta name="description" content="Luz del Fondo — un descenso nocturno hacia una luz cálida. Indie alternativo.">
 <link rel="canonical" href="https://luzdelfondo.cl/">
 <meta name="theme-color" content="#efe6cf">
 <!-- favicon (luz cálida) -->
@@ -16,7 +16,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Luz del Fondo">
 <meta property="og:title" content="Luz del Fondo">
-<meta property="og:description" content="Un descenso nocturno hacia una luz cálida. Indie alternativo, grabado de noche.">
+<meta property="og:description" content="Un descenso nocturno hacia una luz cálida. Indie alternativo.">
 <meta property="og:url" content="https://luzdelfondo.cl/">
 <meta property="og:image" content="https://luzdelfondo.cl/og.png">
 <meta property="og:image:width" content="1200">
@@ -120,6 +120,8 @@ nav a:hover{opacity:1}
 .u-title .f-amber{font-family:var(--serif);font-weight:600;background:var(--glow-deep);color:#fdf3df;border-color:var(--glow-deep)}
 .u-sub{font-size:clamp(1rem,2.4vw,1.35rem);color:var(--ink);max-width:34ch;line-height:1.55;font-weight:300;
   font-style:italic;opacity:0;animation:rise 1.1s .8s forwards;position:relative;z-index:2}
+.u-author{display:block;margin-top:0;font-family:var(--mono);font-style:normal;font-size:.78em;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--cream-dim);text-align:center}
 .u-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px;position:relative;z-index:2;
   opacity:0;animation:rise 1.1s 1.15s forwards}
 .u-cta{margin-top:30px;position:relative;z-index:2;opacity:0;animation:rise 1.1s .95s forwards}
@@ -361,7 +363,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 <nav>
   <div class="brand"><span class="dot"></span>Luz del Fondo</div>
   <div class="links"><a href="#cuarto">El cuarto</a><a href="#cartelera">Cartelera</a><a href="#fondo">La luz</a></div>
-  <div class="right">Grabado de noche</div>
+  <div class="right">Chile</div>
 </nav>
 
 <main>
@@ -384,7 +386,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
     </svg>
   </div>
 
-  <p class="u-kicker">Un descenso nocturno</p>
+  <p class="u-kicker">Solo podrás ver...</p>
   <h1 class="u-title" aria-label="Luz del Fondo">
     <span class="word">
       <span class="sc f-serif" style="--r:-6deg">L</span>
@@ -402,7 +404,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
       <span class="sc f-serif" style="--r:-4deg">o</span>
     </span>
   </h1>
-  <p class="u-sub">La ciudad ya se durmió. Solo queda una luz, encendida, al fondo de la noche. Desciende hacia ella.</p>
+  <p class="u-sub"><span class="u-author">— Mauricio López</span></p>
   <div class="u-cta">
     <a href="#cuarto" id="heroPlay" class="play-cta">
       <span class="pulse"></span>
@@ -416,14 +418,14 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 
 <!-- ESTACIÓN 2 · EL CAMINO -->
 <section class="camino reveal">
-  <p id="caminoText">Cada farol que dejas atrás te acerca un poco más.</p>
+  <p id="caminoText">Las raíces irán más allá de donde crees.</p>
 </section>
 
 <!-- ESTACIÓN 3 · EL CUARTO -->
 <section class="cuarto" id="cuarto">
   <div class="reveal" style="width:100%;display:flex;flex-direction:column;align-items:center">
-    <p class="station-tag">La ventana encendida</p>
-    <h2 class="station-title">Adentro, una cinta sigue girando</h2>
+    <p class="station-tag">Una cápsula para escuchar</p>
+    <h2 class="station-title">Aquí una cinta sigue girando</h2>
     <div class="window" id="theDeck">
       <div class="deck-grid">
         <svg class="cassette" viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" aria-label="Cassette Ojos de octubre">
@@ -463,7 +465,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
             <circle cx="40" cy="40" r="6"/><circle cx="420" cy="40" r="6"/><circle cx="40" cy="260" r="6"/><circle cx="420" cy="260" r="6"/><circle cx="230" cy="232" r="5"/></g>
         </svg>
         <div class="panel">
-          <p class="np">► Suena en el cuarto</p>
+          <p class="np">► Suena en la pieza</p>
           <p class="track-name">Ojos de octubre</p>
           <p class="track-sub">Sencillo</p>
           <p class="counter" id="counter">00:00</p>
@@ -496,21 +498,21 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 <section class="cartelera" id="cartelera">
   <div class="reveal" style="width:100%;display:flex;flex-direction:column;align-items:center">
     <p class="station-tag">La cartelera</p>
-    <h2 class="station-title">Lo que viene en la noche</h2>
-    <p class="station-note">Fechas en vivo · nuevas canciones</p>
+    <h2 class="station-title">Se vienen cositas</h2>
+    <p class="station-note">Fotos · videos · momentos</p>
     <div id="wall" style="width:100%;display:flex;justify-content:center"></div>
   </div>
 </section>
 
 <!-- ESTACIÓN 4 · LA LUZ DEL FONDO -->
 <section class="fondo" id="fondo">
-  <p class="phrase reveal">Y al final del descenso, ya no hay ciudad. <i>Solo la luz, y la canción que dejaste sonando.</i></p>
-  <p class="signo reveal">Luz del Fondo · grabado de noche · Chile</p>
+  <p class="phrase reveal">Al final del camino, <i>solo queda la canción que dejaste sonando.</i></p>
+  <p class="signo reveal">Luz del Fondo · Chile</p>
 </section>
 
 <footer>
   <p class="f-name">Luz del Fondo</p>
-  <p class="copy">© 2026 · todo grabado de noche</p>
+  <p class="copy">© 2026</p>
 </footer>
 
 </main>
@@ -721,8 +723,8 @@ const EVENTS=[
     wall.innerHTML=
       '<div class="empty-wall">'+
         '<div class="lamp-ico"></div>'+
-        '<p>El muro aún está en penumbra.</p>'+
-        '<p class="sub">Pronto se encenderán las primeras fechas en vivo y nuevas canciones. Vuelve a bajar por aquí.</p>'+
+        '<p>Todavía no hay nada aquí.</p>'+
+        '<p class="sub">Aquí irán fotos y videos :3</p>'+
         '<div class="notify"><a href="https://www.instagram.com/luzdelfondo/" target="_blank" rel="noopener">Sígueme en Instagram</a></div>'+
       '</div>';
     return;
