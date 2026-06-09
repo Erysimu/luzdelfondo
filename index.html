@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light only">
-<meta name="supported-color-schemes" content="light">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
 <title>Luz del Fondo</title>
 <meta name="description" content="Luz del Fondo — un descenso nocturno hacia una luz cálida. Indie alternativo.">
 <link rel="canonical" href="https://luzdelfondo.cl/">
@@ -34,18 +34,27 @@
   --cream:#262b33;--cream-dim:#6b6453;
   --glow:#cf7a26;--glow-soft:#dd8a36;--glow-deep:#a8481a;
   --line:rgba(38,43,51,.30);
-  --paper:#f6f1e6;--rule:#aebccb;--margin:#cf8a7c;--ink:#262b33;
+  --paper:#f6f1e6;--rule:rgba(174,188,203,.45);--margin:rgba(207,138,124,.5);--ink:#262b33;
   --serif:'Fraunces',Georgia,serif;--mono:'DM Mono',ui-monospace,monospace;--hand:'Caveat',cursive;
   --p:0; /* progreso de scroll 0..1, lo setea JS */
 }
+/* ====== MODO NOCHE ====== */
+[data-theme="night"]{
+  --night-0:#161b22;--night-1:#1a2029;--night-2:#1e2530;
+  --cream:#ece3d0;--cream-dim:rgba(236,227,208,.62);
+  --glow:#ffb061;--glow-soft:#ffbf7a;--glow-deep:#e08a3a;
+  --line:rgba(236,227,208,.22);
+  --paper:#161b22;--rule:rgba(210,216,228,.07);--margin:rgba(207,138,124,.3);--ink:#ece3d0;
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;color-scheme:light;background:var(--paper)}
-body{color:var(--ink);font-family:var(--serif);overflow-x:hidden;color-scheme:light;
+html[data-theme="night"]{color-scheme:dark}
+body{color:var(--ink);font-family:var(--serif);overflow-x:hidden;color-scheme:inherit;
   -webkit-font-smoothing:antialiased;position:relative;
   background-color:var(--paper);
   background-image:
-    linear-gradient(90deg,transparent 0 46px,rgba(207,138,124,.5) 46px 47px,transparent 47px),
-    repeating-linear-gradient(transparent 0 31px,rgba(174,188,203,.45) 31px 32px);
+    linear-gradient(90deg,transparent 0 46px,var(--margin) 46px 47px,transparent 47px),
+    repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);
   background-position:0 0,0 0;background-attachment:scroll}
 
 /* ============ LA LUZ DEL FONDO — apenas un brillo pálido, sin naranja ============ */
@@ -87,12 +96,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:50;display:grid;grid-template-co
 nav .brand{display:flex;align-items:center;gap:10px;justify-self:start}
 nav .links{justify-self:center}
 nav .right{justify-self:end}
+.tools{display:flex;align-items:center;gap:10px}
+.tbtn{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink);background:rgba(247,240,222,.6);
+  border:1.5px solid var(--ink);border-radius:5px;padding:5px 9px;cursor:pointer;line-height:1;
+  box-shadow:2px 2px 0 rgba(38,43,51,.18);transition:transform .2s,box-shadow .2s,background .2s}
+.tbtn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 rgba(38,43,51,.22);background:rgba(207,122,38,.14)}
+.tbtn.ticon{display:grid;place-items:center;padding:5px}
+.tbtn.ticon svg{width:16px;height:16px}
+.tbtn .i-moon{display:none}
+[data-theme="night"] .tbtn .i-sun{display:none}
+[data-theme="night"] .tbtn .i-moon{display:block}
+/* volumen */
+.vol{display:flex;align-items:center;gap:8px;margin-top:14px}
+.vol svg{width:16px;height:16px;color:var(--cream-dim);flex-shrink:0}
+.vol input[type=range]{-webkit-appearance:none;appearance:none;width:96px;height:18px;background:transparent;cursor:pointer}
+.vol input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:rgba(38,43,51,.25)}
+.vol input[type=range]::-moz-range-track{height:4px;border-radius:3px;background:rgba(38,43,51,.25)}
+.vol input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:13px;height:13px;border-radius:50%;
+  background:var(--ink);margin-top:-4.5px;box-shadow:1px 1px 0 rgba(38,43,51,.3)}
+.vol input[type=range]::-moz-range-thumb{width:13px;height:13px;border:none;border-radius:50%;background:var(--ink)}
 nav .dot{width:7px;height:7px;border-radius:50%;background:var(--glow);box-shadow:0 0 10px var(--glow);animation:rec 1.6s steps(1) infinite}
 @keyframes rec{50%{opacity:.2}}
 nav .links{display:flex;gap:24px}
 nav a{color:inherit;text-decoration:none;opacity:.7;transition:opacity .3s}
 nav a:hover{opacity:1}
-@media(max-width:720px){nav .links,nav .right{display:none}}
+@media(max-width:720px){nav .links{display:none}}
 
 /* ============ ESTACIÓN 1 · EL UMBRAL ============ */
 .umbral{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -310,7 +338,26 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
 /* nav a tinta */
 nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!important}
 
+/* ====== anulaciones de color en MODO NOCHE ====== */
+[data-theme="night"] nav{text-shadow:0 1px 8px rgba(0,0,0,.45)!important}
+[data-theme="night"] .window{background:rgba(36,43,54,.62)!important}
+[data-theme="night"] .poster{background:rgba(36,43,54,.55)!important}
+[data-theme="night"] .empty-wall{background:rgba(36,43,54,.45)!important}
+[data-theme="night"] .u-pill{background:rgba(36,43,54,.58)!important}
+[data-theme="night"] .u-pill:hover{background:rgba(255,176,97,.16)!important}
+[data-theme="night"] .u-pill.soon{background:rgba(236,227,208,.06)!important}
+[data-theme="night"] .ctrl{background:rgba(36,43,54,.5)!important}
+[data-theme="night"] .ctrl:hover{background:rgba(255,176,97,.16)!important;color:var(--glow)!important}
+[data-theme="night"] .play{background:rgba(255,176,97,.16)!important;color:var(--glow)!important}
+[data-theme="night"] .ptrack{background:rgba(236,227,208,.2)!important}
+[data-theme="night"] .vu i{background:linear-gradient(#7c8290,#ece3d0)}
+[data-theme="night"] #trail{background:rgba(236,227,208,.16)!important}
+[data-theme="night"] .tbtn{background:rgba(36,43,54,.6)}
+[data-theme="night"] .tbtn:hover{background:rgba(255,176,97,.16)}
+[data-theme="night"] .vol input[type=range]::-webkit-slider-runnable-track{background:rgba(236,227,208,.2)}
+[data-theme="night"] .vol input[type=range]::-moz-range-track{background:rgba(236,227,208,.2)}
 
+@media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   #deep{transform:translate(-50%,0) scale(1.4);opacity:.7}
 }
@@ -342,8 +389,14 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 
 <nav>
   <div class="brand"><span class="dot"></span>Luz del Fondo</div>
-  <div class="links"><a href="#cuarto">La pieza</a><a href="#cartelera">Cartelera</a><a href="#fondo">La luz</a></div>
-  <div class="right">Chile</div>
+  <div class="links"><a href="#cuarto" data-i18n="navRoom">La pieza</a><a href="#cartelera" data-i18n="navBoard">Cartelera</a><a href="#fondo" data-i18n="navLight">La luz</a></div>
+  <div class="right tools">
+    <button id="langBtn" class="tbtn" aria-label="Cambiar idioma / Switch language">EN</button>
+    <button id="themeBtn" class="tbtn ticon" aria-label="Modo noche / Night mode">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
 </nav>
 
 <main>
@@ -366,7 +419,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
     </svg>
   </div>
 
-  <p class="u-kicker">Solo podrás ver...</p>
+  <p class="u-kicker" data-i18n="kicker">Solo podrás ver...</p>
   <h1 class="u-title" aria-label="Luz del Fondo">
     <span class="word">
       <span class="sc f-serif" style="--r:-6deg">L</span>
@@ -389,7 +442,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
     <a href="#cuarto" id="heroPlay" class="play-cta">
       <span class="pulse"></span>
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-      <span class="pc-tx"><b>Escuchar ahora</b><span>Primer sencillo · Ojos de octubre</span></span>
+      <span class="pc-tx"><b data-i18n="ctaTitle">Escuchar ahora</b><span data-i18n="ctaSub">Primer sencillo · Ojos de octubre</span></span>
     </a>
   </div>
   <div class="u-links" id="u-links"></div>
@@ -404,8 +457,8 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 <!-- ESTACIÓN 3 · EL CUARTO -->
 <section class="cuarto" id="cuarto">
   <div class="reveal" style="width:100%;display:flex;flex-direction:column;align-items:center">
-    <p class="station-tag">Una cápsula para escuchar</p>
-    <h2 class="station-title">Aquí una cinta sigue girando</h2>
+    <p class="station-tag" data-i18n="roomTag">Una cápsula para escuchar</p>
+    <h2 class="station-title" data-i18n="roomTitle">Aquí una cinta sigue girando</h2>
     <div class="window" id="theDeck">
       <div class="deck-grid">
         <svg class="cassette" viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" aria-label="Cassette Ojos de octubre">
@@ -445,9 +498,9 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
             <circle cx="40" cy="40" r="6"/><circle cx="420" cy="40" r="6"/><circle cx="40" cy="260" r="6"/><circle cx="420" cy="260" r="6"/><circle cx="230" cy="232" r="5"/></g>
         </svg>
         <div class="panel">
-          <p class="np">► Suena en la pieza</p>
+          <p class="np" data-i18n="np">► Suena en la pieza</p>
           <p class="track-name">Ojos de octubre</p>
-          <p class="track-sub">Sencillo</p>
+          <p class="track-sub" data-i18n="trackSub">Sencillo</p>
           <p class="counter" id="counter">00:00</p>
           <div class="vu" id="vu"></div>
           <div class="progressrow">
@@ -464,7 +517,11 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
             <button class="play" id="playBtn" aria-label="Reproducir / pausar">
               <svg id="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </button>
-            <span class="hint" id="hint">Pulsa para escuchar</span>
+            <span class="hint" id="hint" data-i18n="hintIdle">Pulsa para escuchar</span>
+          </div>
+          <div class="vol">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            <input type="range" id="vol" min="0" max="1" step="0.01" value="0.85" aria-label="Volumen">
           </div>
           <audio id="audio" src="ojos-de-octubre.mp3" preload="metadata"></audio>
         </div>
@@ -477,16 +534,16 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 <!-- ESTACIÓN · LA CARTELERA -->
 <section class="cartelera" id="cartelera">
   <div class="reveal" style="width:100%;display:flex;flex-direction:column;align-items:center">
-    <p class="station-tag">La cartelera</p>
-    <h2 class="station-title">Se vienen cositas</h2>
-    <p class="station-note">Fotos · videos · momentos</p>
+    <p class="station-tag" data-i18n="boardTag">La cartelera</p>
+    <h2 class="station-title" data-i18n="boardTitle">Se vienen cositas</h2>
+    <p class="station-note" data-i18n="boardNote">Fotos · videos · momentos</p>
     <div id="wall" style="width:100%;display:flex;justify-content:center"></div>
   </div>
 </section>
 
 <!-- ESTACIÓN 4 · LA LUZ DEL FONDO -->
 <section class="fondo" id="fondo">
-  <p class="phrase reveal">Al final del camino, <i>solo queda la canción que dejaste sonando.</i></p>
+  <p class="phrase reveal" data-i18n-html="climax">Al final del camino, <i>solo queda la canción que dejaste sonando.</i></p>
   <p class="signo reveal">Luz del Fondo · Chile</p>
 </section>
 
@@ -498,6 +555,45 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 </main>
 
 <script>
+/* ===================== IDIOMA (ES / EN) ===================== */
+let lang='es';
+const T={
+  es:{navRoom:'La pieza',navBoard:'Cartelera',navLight:'La luz',
+    kicker:'Solo podrás ver...',ctaTitle:'Escuchar ahora',ctaSub:'Primer sencillo · Ojos de octubre',
+    camino:'Las raíces irán más allá de donde crees.',
+    roomTag:'Una cápsula para escuchar',roomTitle:'Aquí una cinta sigue girando',
+    np:'► Suena en la pieza',trackSub:'Sencillo',hintIdle:'Pulsa para escuchar',
+    boardTag:'La cartelera',boardTitle:'Se vienen cositas',boardNote:'Fotos · videos · momentos',
+    climax:'Al final del camino, <i>solo queda la canción que dejaste sonando.</i>',
+    soon:'pronto',emptyMain:'Todavía no hay nada aquí.',emptySub:'Aquí irán fotos y videos :3',
+    emptyNotify:'Sígueme en Instagram',hintPlaying:'Sonando · Ojos de octubre',
+    hintUpload:'Sube ojos-de-octubre.mp3 para oírla',
+    evTickets:'Entradas',evListen:'Escuchar',evLive:'En vivo',evNew:'Nuevo'},
+  en:{navRoom:'The room',navBoard:'The board',navLight:'The light',
+    kicker:"You'll only get to see...",ctaTitle:'Listen now',ctaSub:'First single · Ojos de octubre',
+    camino:'Your roots will reach further than you think.',
+    roomTag:'A capsule to listen',roomTitle:'Here a tape keeps spinning',
+    np:'► Playing in the room',trackSub:'Single',hintIdle:'Tap to listen',
+    boardTag:'The board',boardTitle:'Good things are coming',boardNote:'Photos · videos · moments',
+    climax:'At the end of the road, <i>only the song you left playing remains.</i>',
+    soon:'soon',emptyMain:'Nothing here yet.',emptySub:'Photos and videos will go here :3',
+    emptyNotify:'Follow me on Instagram',hintPlaying:'Now playing · Ojos de octubre',
+    hintUpload:'Upload ojos-de-octubre.mp3 to hear it',
+    evTickets:'Tickets',evListen:'Listen',evLive:'Live',evNew:'New'}
+};
+function tr(k){return (T[lang]&&T[lang][k])!=null?T[lang][k]:(T.es[k]||'');}
+function applyLang(l){
+  lang=l;
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=tr(el.dataset.i18n);});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=tr(el.dataset.i18nHtml);});
+  const lb=document.getElementById('langBtn');if(lb)lb.textContent=(l==='es'?'EN':'ES');
+  if(typeof renderLinks==='function')renderLinks();
+  if(typeof renderWall==='function')renderWall();
+  if(typeof setCamino==='function')setCamino();
+  if(typeof hint!=='undefined'&&hint&&audio&&audio.paused)hint.textContent=tr('hintIdle');
+}
+
 /* ====================================================================
    TUS PLATAFORMAS — pega aquí tus URLs reales cuando tengas cada cuenta.
    Deja '' (vacío) y se muestra como "pronto" (gris, no clickeable).
@@ -521,17 +617,18 @@ const ICONS={
 };
 const LABELS={spotify:'Spotify',applemusic:'Apple Music',soundcloud:'SoundCloud',youtube:'YouTube',instagram:'Instagram'};
 const uLinks=document.getElementById('u-links');
-if(uLinks){
-  const ANGLES=['-2.4deg','1.9deg','-1.6deg','2.4deg','-2deg','1.6deg'];
-  const html=Object.keys(LINKS).map((k,i)=>{
+const ANGLES=['-2.4deg','1.9deg','-1.6deg','2.4deg','-2deg','1.6deg'];
+function renderLinks(){
+  if(!uLinks)return;
+  uLinks.innerHTML=Object.keys(LINKS).map((k,i)=>{
     const ic='<span class="pi">'+ICONS[k]+'</span>';
     const rot='--rot:'+ANGLES[i%ANGLES.length];
     if(LINKS[k])
       return '<a class="u-pill" style="'+rot+'" href="'+LINKS[k]+'" target="_blank" rel="noopener" aria-label="'+LABELS[k]+'">'+ic+LABELS[k]+'</a>';
-    return '<span class="u-pill soon" style="'+rot+'" aria-disabled="true">'+ic+LABELS[k]+'<em>pronto</em></span>';
+    return '<span class="u-pill soon" style="'+rot+'" aria-disabled="true">'+ic+LABELS[k]+'<em>'+tr('soon')+'</em></span>';
   }).join('');
-  uLinks.innerHTML=html;
 }
+renderLinks();
 
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const touch=matchMedia('(hover: none)').matches;
@@ -611,10 +708,14 @@ else{
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* ---- camino: revelar palabra por palabra ---- */
-const ct=document.getElementById('caminoText');
-if(ct){const words=ct.textContent.split(' ');
-  ct.innerHTML=words.map((w,i)=>'<span class="reveal-word" style="transition-delay:'+(i*0.08)+'s">'+w+'</span>').join(' ');}
+/* ---- camino: revelar palabra por palabra (reconstruible por idioma) ---- */
+function setCamino(){
+  const ct=document.getElementById('caminoText');
+  if(!ct)return;
+  const words=(T[lang].camino||'').split(' ');
+  ct.innerHTML=words.map((w,i)=>'<span class="reveal-word" style="transition-delay:'+(i*0.08)+'s">'+w+'</span>').join(' ');
+}
+setCamino();
 
 /* ---- reproductor ---- */
 const vu=document.getElementById('vu');for(let i=0;i<22;i++)vu.appendChild(document.createElement('i'));
@@ -640,7 +741,7 @@ function drawSynth(){synthRaf=requestAnimationFrame(drawSynth);tt+=0.08;
     b.style.transform='scaleY('+Math.max(.1,v*0.9+0.1).toFixed(3)+')';});}
 function stopDraws(){cancelAnimationFrame(raf);cancelAnimationFrame(synthRaf);}
 function uiPlay(){deck.classList.add('playing');ico.innerHTML=PAUSE;}
-function uiPause(){deck.classList.remove('playing');ico.innerHTML=PLAY;hint.textContent='Pulsa para escuchar';
+function uiPause(){deck.classList.remove('playing');ico.innerHTML=PLAY;hint.textContent=tr('hintIdle');
   stopDraws();bars.forEach(b=>b.style.transform='scaleY(.14)');}
 audio.addEventListener('timeupdate',()=>{if(scrubbing)return;counter.textContent=fmt(audio.currentTime);
   if(audio.duration){const r=audio.currentTime/audio.duration*100;pfill.style.width=r+'%';pknob.style.left=r+'%';}});
@@ -648,13 +749,32 @@ audio.addEventListener('loadedmetadata',()=>{tDur.textContent=fmt(audio.duration
 audio.addEventListener('ended',()=>{uiPause();pfill.style.width='0%';counter.textContent='00:00';});
 function startPlayback(){
   setupAudio();if(actx.state==='suspended')actx.resume();
-  audio.play().then(()=>{uiPlay();hint.textContent='Sonando · Ojos de octubre';stopDraws();drawReal();})
-    .catch(()=>{uiPlay();hint.textContent='Sube ojos-de-octubre.mp3 para oírla';stopDraws();drawSynth();});
+  audio.play().then(()=>{uiPlay();hint.textContent=tr('hintPlaying');stopDraws();drawReal();})
+    .catch(()=>{uiPlay();hint.textContent=tr('hintUpload');stopDraws();drawSynth();});
 }
 function togglePlay(){setupAudio();if(actx.state==='suspended')actx.resume();
   if(audio.paused)startPlayback();else{audio.pause();uiPause();}}
 btn.addEventListener('click',togglePlay);
 restartBtn.addEventListener('click',()=>{audio.currentTime=0;pfill.style.width='0%';pknob.style.left='0%';counter.textContent='00:00';});
+
+/* ---- volumen (PC/Android; iOS ignora volume por hardware) ---- */
+const volEl=document.getElementById('vol');
+if(volEl&&audio){
+  audio.volume=parseFloat(volEl.value);
+  volEl.addEventListener('input',()=>{audio.volume=parseFloat(volEl.value);},{passive:true});
+}
+
+/* ---- modo noche ---- */
+const themeBtn=document.getElementById('themeBtn');
+if(themeBtn)themeBtn.addEventListener('click',()=>{
+  const night=document.documentElement.getAttribute('data-theme')==='night';
+  if(night)document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme','night');
+});
+
+/* ---- idioma ES / EN ---- */
+const langBtn=document.getElementById('langBtn');
+if(langBtn)langBtn.addEventListener('click',()=>applyLang(lang==='es'?'en':'es'));
 
 /* CTA del hero: "Escuchar ahora" — suena al instante y baja al cuarto */
 const heroPlay=document.getElementById('heroPlay');
@@ -695,23 +815,23 @@ const EVENTS=[
   // {type:'release', day:'03', month:'NOV', title:'Nuevo single', meta:'Single · 2026', url:'#'},
 ];
 
-(function renderWall(){
+function renderWall(){
   const wall=document.getElementById('wall');
   if(!wall)return;
   if(!EVENTS.length){
     wall.innerHTML=
       '<div class="empty-wall">'+
         '<div class="lamp-ico"></div>'+
-        '<p>Todavía no hay nada aquí.</p>'+
-        '<p class="sub">Aquí irán fotos y videos :3</p>'+
-        '<div class="notify"><a href="https://www.instagram.com/luzdelfondo/" target="_blank" rel="noopener">Sígueme en Instagram</a></div>'+
+        '<p>'+tr('emptyMain')+'</p>'+
+        '<p class="sub">'+tr('emptySub')+'</p>'+
+        '<div class="notify"><a href="https://www.instagram.com/luzdelfondo/" target="_blank" rel="noopener">'+tr('emptyNotify')+'</a></div>'+
       '</div>';
     return;
   }
   wall.innerHTML='<div class="wall">'+EVENTS.map(ev=>{
     const isShow=ev.type==='show';
-    const cta=isShow?'Entradas':'Escuchar';
-    const tag=isShow?'<span class="tag">En vivo</span>':'<span class="tag">Nuevo</span>';
+    const cta=isShow?tr('evTickets'):tr('evListen');
+    const tag=isShow?'<span class="tag">'+tr('evLive')+'</span>':'<span class="tag">'+tr('evNew')+'</span>';
     const go=ev.url?'<a class="go" href="'+ev.url+'" target="_blank" rel="noopener">'+cta+' →</a>':tag;
     return '<div class="poster live">'+
       '<div class="date"><div class="d">'+ev.day+'</div><div class="m">'+ev.month+'</div></div>'+
@@ -719,7 +839,8 @@ const EVENTS=[
       go+
     '</div>';
   }).join('')+'</div>';
-})();
+}
+renderWall();
 
 applyScroll();
 </script>
