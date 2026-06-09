@@ -227,7 +227,7 @@ nav a:hover{opacity:1}
 .cartelera .station-tag{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--glow);
   display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:14px}
 .cartelera .station-tag::before,.cartelera .station-tag::after{content:"";width:38px;height:1px;background:var(--glow);opacity:.6}
-.cartelera .station-title{font-size:clamp(1.8rem,5vw,3rem);font-weight:300;font-style:italic;margin-bottom:8px;line-height:1.05}
+.cartelera .station-title{font-size:clamp(1.8rem,5vw,3rem);font-weight:500;font-style:italic;margin-bottom:8px;line-height:1.05}
 .cartelera .station-note{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--cream-dim);margin-bottom:42px}
 /* muro de afiches */
 .wall{width:100%;max-width:880px;display:flex;flex-direction:column;gap:16px}
@@ -277,7 +277,7 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
 /* ============ PIEL HECHA A MANO / ZINE ============ */
 /* boiling SOLO en títulos y marcos (el resto queda nítido, sin marear) */
 .station-title,.camino p,.fondo .phrase,.f-name{filter:url(#sketchSoft)}
-.poster,.empty-wall{filter:url(#sketch)}
+.empty-wall p{filter:url(#sketchSoft)}
 
 /* tipografía más a cuaderno: títulos manuscritos */
 .station-title,.camino p,.fondo .phrase,.f-name{font-family:var(--serif);font-style:italic;font-weight:500;
@@ -290,10 +290,12 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
 .window::before{display:none}
 .window::after{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:22px;
   filter:url(#sketch);pointer-events:none}
-.poster{background:rgba(247,240,222,.7)!important;border:2px solid var(--ink)!important;box-shadow:4px 5px 0 rgba(38,43,51,.16)!important}
+.poster{background:rgba(247,240,222,.7)!important;border:none!important;box-shadow:4px 5px 0 rgba(38,43,51,.16)!important}
+.poster::after{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:14px;filter:url(#sketch);pointer-events:none}
 .poster::before{background:var(--glow)!important;width:4px!important;opacity:.85!important}
 .poster.live:hover{box-shadow:6px 7px 0 rgba(38,43,51,.22)!important;border-color:var(--glow-deep)!important}
-.empty-wall{background:rgba(247,240,222,.6)!important;border:2px dashed var(--ink)!important}
+.empty-wall{background:rgba(247,240,222,.6)!important;border:none!important;position:relative}
+.empty-wall::after{content:"";position:absolute;inset:0;border:2px dashed var(--ink);border-radius:16px;filter:url(#sketch);pointer-events:none}
 .u-pill .pi{color:var(--glow-deep)}
 .ctrl{border:2px solid var(--ink)!important;background:rgba(247,240,222,.55)!important;color:var(--ink)!important}
 .ctrl:hover{border-color:var(--glow-deep)!important;background:rgba(207,122,38,.14)!important;color:var(--glow-deep)!important}
@@ -535,13 +537,12 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const touch=matchMedia('(hover: none)').matches;
 const small=innerWidth<760;
 
-/* ---- line boiling: alterna el ruido del filtro ~8fps (desktop y móvil) ---- */
+/* ---- line boiling: SOLO los marcos animan (#sketch). Los textos usan #sketchSoft estático: dibujados a mano pero sin movimiento (más cómodo de leer). ---- */
 if(!reduce){
-  const tb=document.getElementById('boilTurb'),tb2=document.getElementById('boilTurb2');
+  const tb=document.getElementById('boilTurb');
   if(tb){
     const seeds=[2,8,4,9,3];let i=0,boilTimer=null;
-    const tick=()=>{i=(i+1)%seeds.length;tb.setAttribute('seed',seeds[i]);
-      if(tb2)tb2.setAttribute('seed',seeds[(i+2)%seeds.length]);};
+    const tick=()=>{i=(i+1)%seeds.length;tb.setAttribute('seed',seeds[i]);};
     const start=()=>{if(!boilTimer)boilTimer=setInterval(tick,touch?150:120);};
     const stop=()=>{clearInterval(boilTimer);boilTimer=null;};
     start();
