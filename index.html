@@ -151,11 +151,6 @@ nav a:hover{opacity:1}
 .u-pill.soon .pi{color:var(--cream-dim)}
 .u-pill.soon em{font-style:normal;font-size:8.5px;letter-spacing:.12em;opacity:.7;
   border:1px solid currentColor;border-radius:3px;padding:1px 5px;margin-left:2px}
-.cue{position:absolute;bottom:26px;left:0;right:0;margin:0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.3em;
-  text-transform:uppercase;color:var(--ink);opacity:0;animation:rise 1s 1.4s forwards;display:flex;flex-direction:column;
-  align-items:center;gap:8px;z-index:2}
-.cue .bar{width:1px;height:34px;background:linear-gradient(var(--ink),transparent);animation:drop 1.8s ease-in-out infinite}
-@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:bottom}}
 @keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 
 /* ============ ESTACIÓN 2 · EL CAMINO ============ */
@@ -181,8 +176,6 @@ nav a:hover{opacity:1}
   backdrop-filter:blur(2px)}
 .window::before{content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;
   background:radial-gradient(circle at 50% 120%,rgba(255,176,97,.14),transparent 60%)}
-.sill{position:absolute;left:6%;right:6%;bottom:-10px;height:14px;border-radius:0 0 12px 12px;
-  background:linear-gradient(#1b2430,#0d141e);box-shadow:0 14px 30px rgba(255,150,80,.18)}
 .deck-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(24px,4vw,48px);align-items:center;position:relative}
 @media(max-width:760px){.deck-grid{grid-template-columns:1fr}}
 .cassette{width:100%;height:auto;display:block;filter:drop-shadow(0 20px 40px rgba(0,0,0,.5))}
@@ -222,12 +215,11 @@ nav a:hover{opacity:1}
 /* ============ ESTACIÓN 4 · LA LUZ DEL FONDO (clímax) ============ */
 .fondo{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:clamp(80px,14vh,160px) 24px;position:relative}
-.fondo .phrase{max-width:18ch;font-size:clamp(2rem,7vw,4.5rem);font-weight:300;line-height:1.12;font-style:italic;
-  text-shadow:0 0 50px rgba(0,0,0,.4)}
+.fondo .phrase{max-width:18ch;font-size:clamp(2rem,7vw,4.5rem);font-weight:300;line-height:1.12;font-style:italic}
 .fondo .phrase i{font-style:italic;
   background:linear-gradient(180deg,#dd8a36,var(--glow-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
 .fondo .signo{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--cream-dim);text-shadow:0 1px 12px rgba(0,0,0,.4);margin-top:44px}
+  color:var(--cream-dim);margin-top:44px}
 
 /* ============ ESTACIÓN · LA CARTELERA ============ */
 .cartelera{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -275,25 +267,8 @@ nav a:hover{opacity:1}
 
 
 footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:column;align-items:center;position:relative;z-index:3}
-.f-name{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:300;font-style:italic;margin-bottom:6px;
-  color:var(--cream);text-shadow:0 1px 16px rgba(0,0,0,.45)}
-.f-lead{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--cream-dim);margin-bottom:30px;text-shadow:0 1px 10px rgba(0,0,0,.4)}
-.links-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;width:100%;max-width:520px;margin-bottom:30px}
-.link-card{flex:1 1 220px;max-width:250px;display:flex;align-items:center;gap:14px;text-decoration:none;text-align:left;
-  background:linear-gradient(150deg,rgba(22,32,46,.55),rgba(10,16,26,.7));border:1px solid var(--line);
-  border-radius:14px;padding:16px 18px;transition:transform .3s,border-color .3s,box-shadow .3s}
-.link-card:hover{transform:translateY(-3px);border-color:rgba(255,176,97,.45);
-  box-shadow:0 18px 44px rgba(0,0,0,.4),0 0 36px rgba(255,176,97,.1)}
-.link-card .ic{width:34px;height:34px;flex-shrink:0;border-radius:9px;display:grid;place-items:center;
-  background:rgba(255,176,97,.1);color:var(--glow)}
-.link-card .ic svg{width:19px;height:19px}
-.link-card .tx{display:flex;flex-direction:column;line-height:1.2;min-width:0}
-.link-card .tx b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.05rem;color:var(--cream)}
-.link-card .tx span{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream-dim);margin-top:3px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(max-width:520px){.links-grid{grid-template-columns:1fr}}
-.copy{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:rgba(244,236,223,.5);text-transform:uppercase}
+.f-name{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:300;font-style:italic;margin-bottom:6px;color:var(--cream)}
+.copy{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--cream-dim);text-transform:uppercase}
 
 
 .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s}
@@ -301,10 +276,12 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
 
 /* ============ PIEL HECHA A MANO / ZINE ============ */
 /* boiling SOLO en títulos y marcos (el resto queda nítido, sin marear) */
-.station-title,.camino p,.fondo .phrase,.f-name,.poster,.empty-wall{filter:url(#sketch)}
+.station-title,.camino p,.fondo .phrase,.f-name{filter:url(#sketchSoft)}
+.poster,.empty-wall{filter:url(#sketch)}
 
 /* tipografía más a cuaderno: títulos manuscritos */
-.station-title,.camino p,.fondo .phrase{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
+.station-title,.camino p,.fondo .phrase,.f-name{font-family:var(--serif);font-style:italic;font-weight:500;
+  letter-spacing:0;font-optical-sizing:none}
 .f-name{font-family:var(--serif);font-style:italic;font-weight:500}
 
 /* paneles = tarjetas de papel con borde a tinta */
@@ -313,7 +290,6 @@ footer{padding:50px 24px 72px;text-align:center;display:flex;flex-direction:colu
 .window::before{display:none}
 .window::after{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:22px;
   filter:url(#sketch);pointer-events:none}
-.sill{display:none}
 .poster{background:rgba(247,240,222,.7)!important;border:2px solid var(--ink)!important;box-shadow:4px 5px 0 rgba(38,43,51,.16)!important}
 .poster::before{background:var(--glow)!important;width:4px!important;opacity:.85!important}
 .poster.live:hover{box-shadow:6px 7px 0 rgba(38,43,51,.22)!important;border-color:var(--glow-deep)!important}
@@ -334,7 +310,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 
 
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  #deep{transform:translate(-50%,0) scale(1.4);opacity:.7}.cue .bar{opacity:.5}
+  #deep{transform:translate(-50%,0) scale(1.4);opacity:.7}
 }
 </style>
 </head>
@@ -491,7 +467,7 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
           <audio id="audio" src="ojos-de-octubre.mp3" preload="metadata"></audio>
         </div>
       </div>
-      <div class="sill"></div>
+
     </div>
   </div>
 </section>
@@ -559,14 +535,14 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const touch=matchMedia('(hover: none)').matches;
 const small=innerWidth<760;
 
-/* ---- line boiling: alterna el ruido del filtro ~8fps (solo desktop) ---- */
-if(!reduce&&!touch){
+/* ---- line boiling: alterna el ruido del filtro ~8fps (desktop y móvil) ---- */
+if(!reduce){
   const tb=document.getElementById('boilTurb'),tb2=document.getElementById('boilTurb2');
   if(tb){
     const seeds=[2,8,4,9,3];let i=0,boilTimer=null;
     const tick=()=>{i=(i+1)%seeds.length;tb.setAttribute('seed',seeds[i]);
       if(tb2)tb2.setAttribute('seed',seeds[(i+2)%seeds.length]);};
-    const start=()=>{if(!boilTimer)boilTimer=setInterval(tick,120);};
+    const start=()=>{if(!boilTimer)boilTimer=setInterval(tick,touch?150:120);};
     const stop=()=>{clearInterval(boilTimer);boilTimer=null;};
     start();
     document.addEventListener('visibilitychange',()=>{document.hidden?stop():start();});
