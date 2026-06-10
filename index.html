@@ -106,14 +106,14 @@ nav .tools{justify-self:end;display:flex;align-items:center;gap:10px}
 [data-theme="night"] .tbtn .i-sun{display:none}
 [data-theme="night"] .tbtn .i-moon{display:block}
 /* volumen */
-.vol{display:flex;align-items:center;gap:8px;margin-top:14px}
-.vol svg{width:16px;height:16px;color:var(--cream-dim);flex-shrink:0}
-.vol input[type=range]{-webkit-appearance:none;appearance:none;width:96px;height:18px;background:transparent;cursor:pointer}
-.vol input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:rgba(38,43,51,.25)}
-.vol input[type=range]::-moz-range-track{height:4px;border-radius:3px;background:rgba(38,43,51,.25)}
-.vol input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:13px;height:13px;border-radius:50%;
-  background:var(--ink);margin-top:-4.5px;box-shadow:1px 1px 0 rgba(38,43,51,.3)}
-.vol input[type=range]::-moz-range-thumb{width:13px;height:13px;border:none;border-radius:50%;background:var(--ink)}
+.vol{display:flex;align-items:center;gap:10px;margin-top:14px}
+.vol svg{width:17px;height:17px;color:var(--cream-dim);flex-shrink:0}
+.vol input[type=range]{-webkit-appearance:none;appearance:none;width:130px;height:28px;background:transparent;cursor:pointer;touch-action:none}
+.vol input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:4px;background:rgba(38,43,51,.25)}
+.vol input[type=range]::-moz-range-track{height:6px;border-radius:4px;background:rgba(38,43,51,.25)}
+.vol input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--ink);margin-top:-8px;box-shadow:1px 1px 0 rgba(38,43,51,.3);border:2px solid var(--paper)}
+.vol input[type=range]::-moz-range-thumb{width:22px;height:22px;border:2px solid var(--paper);border-radius:50%;background:var(--ink)}
 nav .dot{width:7px;height:7px;border-radius:50%;background:var(--glow);box-shadow:0 0 10px var(--glow);animation:rec 1.6s steps(1) infinite}
 @keyframes rec{50%{opacity:.2}}
 nav .links{display:flex;gap:24px}
@@ -728,11 +728,14 @@ const deck=document.getElementById('theDeck'),btn=document.getElementById('playB
   pfill=document.getElementById('pfill'),pknob=document.getElementById('pknob'),tDur=document.getElementById('tDur');
 const fmt=s=>{s=s||0;return String((s/60|0)).padStart(2,'0')+':'+String((s%60|0)).padStart(2,'0');};
 const PLAY='<path d="M8 5v14l11-7z"/>',PAUSE='<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
-let actx,analyser,data,raf,synthRaf,tt=0;
+let actx,analyser,data,raf,synthRaf,tt=0,gainNode,currentVol=0.85;
 function setupAudio(){if(actx)return;
   actx=new (window.AudioContext||window.webkitAudioContext)();
-  const src=actx.createMediaElementSource(audio);analyser=actx.createAnalyser();analyser.fftSize=64;
-  data=new Uint8Array(analyser.frequencyBinCount);src.connect(analyser);analyser.connect(actx.destination);}
+  const src=actx.createMediaElementSource(audio);
+  gainNode=actx.createGain();gainNode.gain.value=currentVol;
+  analyser=actx.createAnalyser();analyser.fftSize=64;
+  data=new Uint8Array(analyser.frequencyBinCount);
+  src.connect(gainNode);gainNode.connect(analyser);analyser.connect(actx.destination);}
 function drawReal(){raf=requestAnimationFrame(drawReal);if(!analyser)return;
   analyser.getByteFrequencyData(data);
   bars.forEach((b,i)=>{const idx=Math.floor(i/bars.length*data.length);
@@ -759,11 +762,13 @@ function togglePlay(){setupAudio();if(actx.state==='suspended')actx.resume();
 btn.addEventListener('click',togglePlay);
 restartBtn.addEventListener('click',()=>{audio.currentTime=0;pfill.style.width='0%';pknob.style.left='0%';counter.textContent='00:00';});
 
-/* ---- volumen (PC/Android; iOS ignora volume por hardware) ---- */
+/* ---- volumen (vía GainNode → funciona también en iOS) ---- */
 const volEl=document.getElementById('vol');
 if(volEl&&audio){
-  audio.volume=parseFloat(volEl.value);
-  volEl.addEventListener('input',()=>{audio.volume=parseFloat(volEl.value);},{passive:true});
+  currentVol=parseFloat(volEl.value);
+  audio.volume=currentVol;
+  const setVol=()=>{currentVol=parseFloat(volEl.value);audio.volume=currentVol;if(gainNode)gainNode.gain.value=currentVol;};
+  volEl.addEventListener('input',setVol,{passive:true});
 }
 
 /* ---- modo noche ---- */
