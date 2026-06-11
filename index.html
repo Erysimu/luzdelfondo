@@ -14,6 +14,8 @@
 <link rel="apple-touch-icon" href="https://luzdelfondo.cl/og.png">
 <!-- previsualización al compartir el link -->
 <meta property="og:type" content="website">
+<meta property="og:locale" content="es_CL">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:site_name" content="Luz del Fondo">
 <meta property="og:title" content="Luz del Fondo">
 <meta property="og:description" content="Un descenso nocturno hacia una luz cálida. Indie alternativo.">
@@ -25,9 +27,37 @@
 <meta name="twitter:title" content="Luz del Fondo">
 <meta name="twitter:description" content="Un descenso nocturno hacia una luz cálida. Indie alternativo.">
 <meta name="twitter:image" content="https://luzdelfondo.cl/og.png">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"MusicGroup",
+  "name":"Luz del Fondo",
+  "url":"https://luzdelfondo.cl/",
+  "image":"https://luzdelfondo.cl/og.png",
+  "genre":["Indie alternativo","Shoegaze","Post-rock"],
+  "foundingLocation":{"@type":"Country","name":"Chile"},
+  "member":{"@type":"Person","name":"Mauricio López"},
+  "sameAs":["https://www.instagram.com/luzdelfondo/"],
+  "track":{
+    "@type":"MusicRecording",
+    "name":"Ojos de octubre",
+    "byArtist":{"@type":"MusicGroup","name":"Luz del Fondo"},
+    "inLanguage":"es",
+    "datePublished":"2026"
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=DM+Mono:wght@300;400;500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script>
+/* tema guardado o preferencia del sistema, antes del primer paint (sin flash) */
+(function(){try{
+  var t=localStorage.getItem('ldf-theme');
+  if(t==='night'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))
+    document.documentElement.setAttribute('data-theme','night');
+}catch(e){}})();
+</script>
 <style>
 :root{
   --night-0:#f6f1e6;--night-1:#f1ebdd;--night-2:#ebe4d2;
@@ -559,6 +589,11 @@ nav{color:var(--ink)!important;text-shadow:0 1px 0 rgba(255,250,235,.5)!importan
 <script>
 /* ===================== IDIOMA (ES / EN) ===================== */
 let lang='es';
+try{
+  const saved=localStorage.getItem('ldf-lang');
+  if(saved==='es'||saved==='en')lang=saved;
+  else if(!(navigator.language||'es').toLowerCase().startsWith('es'))lang='en';
+}catch(e){}
 const T={
   es:{navRoom:'La pieza',navBoard:'Cartelera',navLight:'La luz',
     kicker:'Solo podrás ver...',ctaTitle:'Escuchar ahora',ctaSub:'Primer sencillo · Ojos de octubre',
@@ -570,6 +605,7 @@ const T={
     soon:'pronto',emptyMain:'Todavía no hay nada aquí.',emptySub:'Aquí irán fotos y videos :3',
     emptyNotify:'Sígueme en Instagram',hintPlaying:'Sonando · Ojos de octubre',
     hintUpload:'Sube ojos-de-octubre.mp3 para oírla',
+    hintErr:'No se pudo cargar el audio',
     evTickets:'Entradas',evListen:'Escuchar',evLive:'En vivo',evNew:'Nuevo'},
   en:{navRoom:'The room',navBoard:'The board',navLight:'The light',
     kicker:"You'll only get to see...",ctaTitle:'Listen now',ctaSub:'First single · Ojos de octubre',
@@ -581,6 +617,7 @@ const T={
     soon:'soon',emptyMain:'Nothing here yet.',emptySub:'Photos and videos will go here :3',
     emptyNotify:'Follow me on Instagram',hintPlaying:'Now playing · Ojos de octubre',
     hintUpload:'Upload ojos-de-octubre.mp3 to hear it',
+    hintErr:'Audio failed to load',
     evTickets:'Tickets',evListen:'Listen',evLive:'Live',evNew:'New'}
 };
 function tr(k){return (T[lang]&&T[lang][k])!=null?T[lang][k]:(T.es[k]||'');}
@@ -642,7 +679,7 @@ if(!reduce){
   if(tb){
     const seeds=[2,8,4,9,3];let i=0,boilTimer=null;
     const tick=()=>{i=(i+1)%seeds.length;tb.setAttribute('seed',seeds[i]);};
-    const start=()=>{if(!boilTimer)boilTimer=setInterval(tick,touch?150:120);};
+    const start=()=>{if(!boilTimer)boilTimer=setInterval(tick,touch?260:120);};
     const stop=()=>{clearInterval(boilTimer);boilTimer=null;};
     start();
     document.addEventListener('visibilitychange',()=>{document.hidden?stop():start();});
@@ -755,7 +792,7 @@ audio.addEventListener('ended',()=>{uiPause();pfill.style.width='0%';counter.tex
 function startPlayback(){
   setupAudio();if(actx.state==='suspended')actx.resume();
   audio.play().then(()=>{uiPlay();hint.textContent=tr('hintPlaying');stopDraws();drawReal();})
-    .catch(()=>{uiPlay();hint.textContent=tr('hintUpload');stopDraws();drawSynth();});
+    .catch(()=>{uiPause();hint.textContent=tr('hintErr');});
 }
 function togglePlay(){setupAudio();if(actx.state==='suspended')actx.resume();
   if(audio.paused)startPlayback();else{audio.pause();uiPause();}}
@@ -777,11 +814,16 @@ if(themeBtn)themeBtn.addEventListener('click',()=>{
   const night=document.documentElement.getAttribute('data-theme')==='night';
   if(night)document.documentElement.removeAttribute('data-theme');
   else document.documentElement.setAttribute('data-theme','night');
+  try{localStorage.setItem('ldf-theme',night?'day':'night');}catch(e){}
 });
 
 /* ---- idioma ES / EN ---- */
 const langBtn=document.getElementById('langBtn');
-if(langBtn)langBtn.addEventListener('click',()=>applyLang(lang==='es'?'en':'es'));
+if(langBtn)langBtn.addEventListener('click',()=>{
+  const nl=(lang==='es'?'en':'es');
+  try{localStorage.setItem('ldf-lang',nl);}catch(e){}
+  applyLang(nl);
+});
 
 /* CTA del hero: "Escuchar ahora" — suena al instante y baja al cuarto */
 const heroPlay=document.getElementById('heroPlay');
@@ -848,6 +890,8 @@ function renderWall(){
   }).join('')+'</div>';
 }
 renderWall();
+
+applyLang(lang); /* aplica idioma detectado/guardado a todo el texto */
 
 applyScroll();
 </script>
